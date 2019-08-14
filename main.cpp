@@ -19,5 +19,14 @@ int main()
 		fread_books.close();
 	}
 	l.showBooks();
+	std::ifstream fread_readers("readers.txt"/*, std::fstream::ate*/);
+	if (!fread_readers)
+		std::cout << "error opening file readers.txt \nReaders not added to library." << std::endl;
+	else
+	{
+		l.addItemFromFile<Reader>(fread_readers);
+		std::cout << "Readers added to library." << std::endl;
+		fread_readers.close();
+	}
     
 }
