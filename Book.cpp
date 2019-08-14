@@ -16,6 +16,16 @@ void Book::setBook(std::string id, std::string auther, std::string title)
 	this->title = title;
 }
 
+void Book::setBookId(std::string id)
+{
+	this->id = id;
+}
+
+std::string Book::getId()
+{
+	return this->id;
+}
+
 std::ostream& operator<<(std::ostream& os, const Book& book)
 {
 	os << book.id << book.auther << book.title;
