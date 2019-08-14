@@ -21,7 +21,7 @@ void Book::setBookId(std::string id)
 	this->id = id;
 }
 
-std::string Book::getId()
+const std::string Book::getId()
 {
 	return this->id;
 }

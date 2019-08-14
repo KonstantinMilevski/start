@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <fstream>
 #include <memory>
@@ -14,6 +15,8 @@ public:
 	void setReader(std::string , std::string , std::string );
 	void setReaderId(std::string );
 	std::string getId();
+	void show();
+	
 
 	friend std::ostream& operator<<(std::ostream&, const Reader&);
 	friend std::istream& read(std::istream&, Reader&);

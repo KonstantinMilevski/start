@@ -37,3 +37,8 @@ std::string Reader::getId()
 	return this->id;
 }
 
+void Reader::show()
+{
+	std::cout << this->id << " - " << this->name << " - " << this->surname << std::endl;
+}
+
