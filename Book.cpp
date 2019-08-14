@@ -26,6 +26,11 @@ std::string Book::getId()
 	return this->id;
 }
 
+void Book::show()
+{
+	std::cout << this->id << " - " << this->auther << " - " << this->title << std::endl;
+}
+
 std::ostream& operator<<(std::ostream& os, const Book& book)
 {
 	os << book.id << book.auther << book.title;
