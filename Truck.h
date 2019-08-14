@@ -11,12 +11,13 @@ using namespace tinyxml2;
 class Truck
 {
 public:
+	Truck() {};
 	explicit Truck(Librarian* );
 
 	void SaveFileXML();
 	void LoadFileXML();
 
 private:
-	Librarian* lib;
+	Librarian* lib=nullptr;
 };
 
