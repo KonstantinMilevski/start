@@ -3,6 +3,7 @@
 #include "Reader.h"
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using Book_t=std::vector < std::vector<std::unique_ptr<Book>>::const_iterator >;
 using Reader_t = std::vector<std::vector<std::unique_ptr<Reader>>::const_iterator>;
@@ -11,6 +12,8 @@ class Keeper;
 class Librarian
 {
 public:
+	friend void strTolower(std::string&);
+
 	//template<typename T>
 	void addBookToLibrary(std::istream& is);
 	void addReaderToLibrary(std::istream& is);
@@ -29,14 +32,18 @@ public:
 		}
 	}
 	void addReadersFromFile(std::istream& is);
-	void showBooks();
 	void showReaders();
+
+	void showBooks();
 	Book& selectBook();
+	Book_t findBooks(std::string& str);
 
 	friend std::istream& read(std::istream&, Book&);
+	
+
 	friend Keeper;
 //private:
-	std::vector<std::shared_ptr<Book>> allBooks;
-	std::vector<std::shared_ptr <Reader>> allReaders;
+	std::vector<std::unique_ptr<Book>> allBooks;
+	std::vector<std::unique_ptr <Reader>> allReaders;
 };
 

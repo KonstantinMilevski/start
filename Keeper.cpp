@@ -37,6 +37,7 @@ void Keeper::saveBookToXML()
 	{
 		std::cout << "Books  saved:" <<last_name << std::endl;
 	}
+	
 }
 
 void Keeper::readBookFromXML()
