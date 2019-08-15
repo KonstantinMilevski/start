@@ -15,6 +15,8 @@ public:
 	void setBook(std::string id, std::string auther, std::string title);
 	void setBookId(std::string id);
 	const std::string getId();
+	const std::string getAuther();
+	const std::string getTitle();
 	void show();
 
 	friend std::ostream& operator<<(std::ostream&, const Book&);

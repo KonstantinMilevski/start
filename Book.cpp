@@ -26,6 +26,16 @@ const std::string Book::getId()
 	return this->id;
 }
 
+const std::string Book::getAuther()
+{
+	return this->auther;
+}
+
+const std::string Book::getTitle()
+{
+	return this->title;
+}
+
 void Book::show()
 {
 	std::cout << this->id << " - " << this->auther << " - " << this->title << std::endl;

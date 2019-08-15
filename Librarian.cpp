@@ -16,17 +16,15 @@
 //		std::cerr << "No data?!" << std::endl;
 //}
 
-//void Librarian::addBookFromFile(std::istream& is)
-//{
-//	{
-//		Book str;
-//		while (read(is, str))
-//		{
-//			auto tmp = std::unique_ptr<Book>(new Book(str));
-//			this->allBook.push_back(std::move(tmp));
-//		}
-//	}
-//}
+
+
+void Librarian::addBookToLibrary(std::istream& is)
+{
+	Book temp;
+	read(is, temp);
+	auto tmp = std::shared_ptr<Book>(new Book(temp));
+	this->allBooks.push_back(std::move(tmp));
+}
 
 void Librarian::addReadersFromFile(std::istream& is)
 {
