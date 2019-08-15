@@ -15,8 +15,11 @@ public:
 	void setReader(std::string , std::string , std::string );
 	void setReaderId(std::string );
 	std::string getId();
+	std::string getName();
+	std::string getSurname();
 	void show();
 	
+
 
 	friend std::ostream& operator<<(std::ostream&, const Reader&);
 	friend std::istream& read(std::istream&, Reader&);
