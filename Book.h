@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <memory>
-
+class Reader;
 class Book
 {
 public:
@@ -27,6 +27,7 @@ private:
 	std::string id;
 	std::string auther;
 	std::string title;
+	std::shared_ptr<Reader> readerWithBook;
 
 
 };
