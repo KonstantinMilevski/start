@@ -167,15 +167,18 @@ std::map<Reader_iter, std::vector<Book_iter>> Librarian::giveBook()
 	Reader_iter r = this->selectReader();
 	Book_iter b=this->selectBook();
 
-	std::vector<Book_iter> vecReadBooksIter;
+	//std::vector<Book_iter> vecReadBooksIter;
 	vecReadBooksIter.push_back(b);
 
 	readersWithBooks.insert(std::make_pair(r, vecReadBooksIter));
 	////
 	std::multimap<Reader_iter, std::vector<Book_iter>>::iterator it;
 	for (it = readersWithBooks.begin(); it != readersWithBooks.end(); ++it)
-		std::cout << std::left << "---" << (*(it->first))->getName() << std::left << "---" << (*((it->second).at(0)))->getTitle()  << std::endl;
-
+	{
+		std::cout << (*(it->first))->getName()<< std::endl;
+		for (auto v : (it->second))
+			std::cout << "---" << (*v)->getTitle()<< std::endl;
+	}
 
 	return readersWithBooks;
 }

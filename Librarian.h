@@ -13,11 +13,13 @@ using Reader_iter = std::vector<std::unique_ptr<Reader>>::const_iterator;
 using Book_t= std::vector<Book_iter>;
 using Reader_t = std::vector<Reader_iter>;
 
+
 // не дружить попробовать
 class Keeper;
 class Librarian
 {
 public:
+	std::vector<Book_iter> vecReadBooksIter;
 		//template<typename T>
 	void addBookToLibrary(std::istream& is);
 	void addReaderToLibrary(std::istream& is);
