@@ -1,0 +1,27 @@
+<Readers>
+    <Reader>
+        <Id>6666</Id>
+        <name>Arnold</name>
+        <surname>Schwarzenegger</surname>
+    </Reader>
+    <Reader>
+        <Id>7777</Id>
+        <name>Brad</name>
+        <surname>Pitt</surname>
+    </Reader>
+    <Reader>
+        <Id>8888</Id>
+        <name>Bruce</name>
+        <surname>Willis</surname>
+    </Reader>
+    <Reader>
+        <Id>9999</Id>
+        <name>Cameron</name>
+        <surname>Diaz</surname>
+    </Reader>
+    <Reader>
+        <Id>1010</Id>
+        <name>Harrison</name>
+        <surname>Ford</surname>
+    </Reader>
+</Readers>
