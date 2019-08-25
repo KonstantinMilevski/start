@@ -19,7 +19,6 @@ class Keeper;
 class Librarian
 {
 public:
-	std::vector<Book_iter> vecReadBooksIter;
 		//template<typename T>
 	void addBookToLibrary(std::istream& is);
 	void addReaderToLibrary(std::istream& is);
@@ -56,5 +55,7 @@ public:
 //private:
 	std::vector<std::unique_ptr<Book>> allBooks;
 	std::vector<std::unique_ptr <Reader>> allReaders;
+
+	std::vector<Book_iter> vecReadBooksIter;
 };
 

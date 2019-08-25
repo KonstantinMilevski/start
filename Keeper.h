@@ -14,6 +14,9 @@ public:
 	Keeper(Librarian* lib);
 	void saveBookToXML();
 	void readBookFromXML();
+
+	void saveReaderToXML();
+	void readReaderFromXML();
 private:
 	Librarian* lib;
 };

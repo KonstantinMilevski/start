@@ -35,12 +35,13 @@ int main()
 	
 	Keeper k(&l);
 	k.readBookFromXML();
+	k.readReaderFromXML();
 	//l.addBookToLibrary(std::cin);
 	l.showReaders();
 	l.showBooks();
-	
-	l.giveBook();
-	l.giveBook();
+	//k.saveReaderToXML();
+	//l.giveBook();
+	//l.giveBook();
 	//k.saveBookToXML();
 	
 	

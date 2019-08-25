@@ -4,14 +4,18 @@ Keeper::Keeper(Librarian* lib)
 {
 	this->lib = lib;
 }
-std::string last_name = "Books_end.xml";
-std::string first_name = "Books_first.xml";
+std::string book_last_name = "Books_end.xml";
+std::string  book_first_name = "Books_first.xml";
+
+std::string reader_last_name = "Readers_end.xml";
+std::string  reader_first_name = "Readers_first.xml";
+
 
 void Keeper::saveBookToXML()
 {
 	
 	XMLDocument doc=new XMLDocument;
-	XMLNode* root = doc.NewElement("Book");
+	XMLNode* root = doc.NewElement("Books");
 	doc.InsertFirstChild(root);
 
 	for (const auto& item : lib->allBooks )
@@ -33,9 +37,9 @@ void Keeper::saveBookToXML()
 		root->InsertEndChild(el);
 	}
 
-	if (doc.SaveFile(last_name.c_str()) == XML_SUCCESS)
+	if (doc.SaveFile(book_last_name.c_str()) == XML_SUCCESS)
 	{
-		std::cout << "Books  saved:" <<last_name << std::endl;
+		std::cout << "Books  saved:" << book_last_name << std::endl;
 	}
 	
 }
@@ -46,14 +50,14 @@ void Keeper::readBookFromXML()
 
 	XMLDocument doc = new XMLDocument;
 	// add 
-	if (!(doc.LoadFile(first_name.c_str()) == XML_SUCCESS))
+	if (!(doc.LoadFile(book_first_name.c_str()) == XML_SUCCESS))
 	{
-		std::cout << "Bad open " << first_name << std::endl;
+		std::cout << "Bad open " << book_first_name << std::endl;
 		//throw - 1;
 	}
 	else
 	{
-		std::cout << "File open: " << first_name << std::endl;
+		std::cout << "File open: " << book_first_name << std::endl;
 		XMLNode* root = doc.FirstChildElement();
 		if (root == nullptr)
 			throw - 1;
@@ -71,6 +75,70 @@ void Keeper::readBookFromXML()
 			auto tmp = std::unique_ptr<Book>(new Book(temp));
 			this->lib->allBooks.push_back(std::move(tmp));
 			book = book->NextSiblingElement();
+		}
+	}
+}
+
+void Keeper::saveReaderToXML()
+{
+	XMLDocument doc = new XMLDocument;
+	XMLNode* root = doc.NewElement("Readers");
+	doc.InsertFirstChild(root);
+
+	for (const auto& item : lib->allReaders)
+	{
+		XMLElement* el = doc.NewElement("Reader");
+		//el->SetAttribute("All books", "5");
+		XMLElement* id = doc.NewElement("Id");
+		id->SetText(item->getId().c_str());
+		el->InsertEndChild(id);
+
+		XMLElement* auther = doc.NewElement("name");
+		auther->SetText(item->getName().c_str());
+		el->InsertEndChild(auther);
+
+		XMLElement* title = doc.NewElement("surname");
+		title->SetText(item->getSurname().c_str());
+		el->InsertEndChild(title);
+
+		root->InsertEndChild(el);
+	}
+	if (doc.SaveFile(reader_last_name.c_str()) == XML_SUCCESS)
+	{
+		std::cout << "Readers  saved:" << reader_last_name << std::endl;
+	}
+}
+
+void Keeper::readReaderFromXML()
+{
+
+	XMLDocument doc = new XMLDocument;
+	// add 
+	if (!(doc.LoadFile(reader_first_name.c_str()) == XML_SUCCESS))
+	{
+		std::cout << "Bad open " << reader_first_name << std::endl;
+		//throw - 1;
+	}
+	else
+	{
+		std::cout << "File open: " << reader_first_name << std::endl;
+		XMLNode* root = doc.FirstChildElement();
+		if (root == nullptr)
+			throw - 1;
+		XMLElement* reader = root->FirstChildElement();//"Reader"
+		while (reader)
+		{
+			XMLElement* id = reader->FirstChildElement(); //"Id"
+			//std::cout << id->GetText() << std::endl;
+			XMLElement* name = id->NextSiblingElement();
+			//std::cout << auther->GetText() << std::endl;
+			XMLElement* surname = name->NextSiblingElement();
+			//std::cout << title->GetText() << std::endl;
+			Reader temp;
+			temp.setReader(id->GetText(), name->GetText(), surname->GetText());
+			auto tmp = std::unique_ptr<Reader>(new Reader(temp));
+			this->lib->allReaders.push_back(std::move(tmp));
+			reader = reader->NextSiblingElement();
 		}
 	}
 }
