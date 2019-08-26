@@ -160,25 +160,32 @@ Book_iter Librarian::selectBook()
 }
 
 
-std::map<Reader_iter, std::vector<Book_iter>> Librarian::giveBook()
+std::multimap<Reader_iter, Book_iter> Librarian::giveBook()
 {
-	std::map<Reader_iter, std::vector<Book_iter>> readersWithBooks;
+	//std::map<Reader_iter, std::vector<Book_iter>> readersWithBooks;
+
+	std::multimap<Reader_iter, Book_iter> readersWithBooks;
 
 	Reader_iter r = this->selectReader();
 	Book_iter b=this->selectBook();
 
 	//std::vector<Book_iter> vecReadBooksIter;
-	vecReadBooksIter.push_back(b);
+	//std::vector<Book_iter> vecReadBooksIter;
+	//vecReadBooksIter.push_back(b);
 
-	readersWithBooks.insert(std::make_pair(r, vecReadBooksIter));
+	//readersWithBooks.insert(std::make_pair(r, vecReadBooksIter));
+
+	readersWithBooks.insert(std::make_pair(r, b));
 	////
-	std::multimap<Reader_iter, std::vector<Book_iter>>::iterator it;
-	for (it = readersWithBooks.begin(); it != readersWithBooks.end(); ++it)
+	//std::multimap<Reader_iter, std::vector<Book_iter>>::iterator it;
+
+
+	/*for (it = readersWithBooks.begin(); it != readersWithBooks.end(); ++it)
 	{
 		std::cout << (*(it->first))->getName()<< std::endl;
 		for (auto v : (it->second))
 			std::cout << "---" << (*v)->getTitle()<< std::endl;
-	}
+	}*/
 
 	return readersWithBooks;
 }

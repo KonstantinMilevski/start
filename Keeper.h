@@ -17,6 +17,9 @@ public:
 
 	void saveReaderToXML();
 	void readReaderFromXML();
+
+	void saveGivenBookToXML(std::multimap<Reader_iter,Book_iter> &givenBook);
+
 private:
 	Librarian* lib;
 };

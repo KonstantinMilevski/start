@@ -11,6 +11,10 @@ std::string reader_last_name = "Readers_end.xml";
 std::string  reader_first_name = "Readers_first.xml";
 
 
+std::string links_last_name = "Links_end.xml";
+
+
+
 void Keeper::saveBookToXML()
 {
 	
@@ -140,5 +144,34 @@ void Keeper::readReaderFromXML()
 			this->lib->allReaders.push_back(std::move(tmp));
 			reader = reader->NextSiblingElement();
 		}
+	}
+}
+
+void Keeper::saveGivenBookToXML(std::multimap<Reader_iter, Book_iter>& givenBook)
+{
+	XMLDocument doc = new XMLDocument;
+	XMLNode* root = doc.NewElement("GivenBooks");
+	doc.InsertFirstChild(root);
+
+	
+	for (auto it = givenBook.begin(); it != givenBook.end(); ++it)
+	{
+		XMLElement* el = doc.NewElement("Link");
+		//el->SetAttribute("All books", "5");
+		XMLElement* readerId = doc.NewElement("ReaderId");
+		readerId->SetText((*(it->first))->getId().c_str());
+		el->InsertEndChild(readerId);
+
+		XMLElement* bookId = doc.NewElement("BookId");
+		bookId->SetText((*(it->second))->getId().c_str());
+		el->InsertEndChild(bookId);
+			   
+		root->InsertEndChild(el);
+	}
+
+	
+	if (doc.SaveFile(links_last_name.c_str()) == XML_SUCCESS)
+	{
+		std::cout << "Links  saved:" << links_last_name << std::endl;
 	}
 }

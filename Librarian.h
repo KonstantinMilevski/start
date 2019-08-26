@@ -47,7 +47,7 @@ public:
 	Book_t findBooks(std::string& str);
 	Book_iter selectBook();
 
-	std::map<Reader_iter, std::vector<Book_iter>>  giveBook();
+	std::multimap<Reader_iter, Book_iter>  giveBook();
 
 	friend void strTolower(std::string&);
 	friend std::istream& read(std::istream&, Book&);
