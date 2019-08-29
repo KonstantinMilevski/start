@@ -52,7 +52,7 @@ public:
 	friend void strTolower(std::string&);
 	friend std::istream& read(std::istream&, Book&);
 	friend Keeper;
-//private:
+private:
 	std::vector<std::unique_ptr<Book>> allBooks;
 	std::vector<std::unique_ptr <Reader>> allReaders;
 

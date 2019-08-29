@@ -8,7 +8,7 @@
 #include "Book.h"
 
 using namespace tinyxml2;
-class Keeper
+class Keeper:public Librarian
 {
 public:
 	Keeper(Librarian* lib);
@@ -18,7 +18,9 @@ public:
 	void saveReaderToXML();
 	void readReaderFromXML();
 
-	void saveGivenBookToXML(std::multimap<Reader_iter,Book_iter> &givenBook);
+	void saveSingleBookToXML();
+
+	void saveGivenBookToXML(const std::multimap<Reader_iter, Book_iter>&);
 
 private:
 	Librarian* lib;

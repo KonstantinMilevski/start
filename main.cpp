@@ -21,6 +21,7 @@ int main()
 	//l.giveBook();
 	//l.giveBook();
 	//k.saveBookToXML();
+	k.saveGivenBookToXML(l.giveBook());
 	
 	
 }
