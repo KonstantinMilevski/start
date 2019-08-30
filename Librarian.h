@@ -22,7 +22,7 @@ public:
 		
 	Book createBook(std::istream& );
 	void addSingleBook(Book& );
-	void delBook(std::string );
+	void delBook(std::string& );
 	void showBooks();
 
 	//template<typename T>

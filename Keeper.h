@@ -16,6 +16,7 @@ public:
 	void saveBookToXML();
 	void readBookFromXML();
 	void saveSingleBookToXML(Book&);
+	void delBookFromXML(std::string&);
 
 	void saveReaderToXML();
 	void readReaderFromXML();

@@ -4,8 +4,8 @@ Keeper::Keeper(Librarian* lib)
 {
 	this->lib = lib;
 }
-std::string book_last_name = "Books_end.xml";
-std::string  book_first_name = "Books_first.xml";
+std::string book_last_name = "Books_end.xml";  //"Books_end.xml"
+std::string  book_first_name = "Books_end.xml";  //"Books_first.xml"
 
 std::string reader_last_name = "Readers_end.xml";
 std::string  reader_first_name = "Readers_first.xml";
@@ -155,7 +155,6 @@ void Keeper::saveSingleBookToXML(Book& book)
 	XMLNode* root = doc.FirstChildElement("Books");
 	if (root)
 	{
-/////////////
 		doc.InsertFirstChild(root);
 		XMLElement* el = doc.NewElement("Book");
 		XMLElement* id = doc.NewElement("Id");
@@ -171,7 +170,6 @@ void Keeper::saveSingleBookToXML(Book& book)
 		el->InsertEndChild(title);
 
 		root->InsertEndChild(el);
-		
 	}
 	else
 	{
@@ -198,6 +196,30 @@ void Keeper::saveSingleBookToXML(Book& book)
 	{
 		std::cout << "Books  saved:" << std::endl;
 	}
+}
+
+void Keeper::delBookFromXML(std::string& compare)
+{
+	
+	XMLDocument doc = new XMLDocument;
+	doc.LoadFile(book_last_name.c_str());
+	if (doc.Error())
+		return;
+	XMLNode* root = doc.FirstChildElement();
+	XMLElement* el;
+	for (el = root->FirstChildElement(); el; el = el->NextSiblingElement())
+	{
+		if (compare == el->FirstChild()->FirstChild()->Value())
+		{
+			root->DeleteChild(el);
+			break;
+		}
+	}
+	if (doc.SaveFile(book_last_name.c_str()) == XML_SUCCESS)
+	{
+		std::cout << "Book remove. Books  saved:" << book_last_name << std::endl;
+	}
+
 }
 
 void Keeper::saveGivenBookToXML(const std::multimap<Reader_iter, Book_iter>& givenBook)

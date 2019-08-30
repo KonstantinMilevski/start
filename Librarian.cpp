@@ -24,7 +24,7 @@ void Librarian::addSingleBook(Book& newBook)
 	this->allBooks.push_back(std::move(tmp));
 }
 
-void Librarian::delBook(std::string str)
+void Librarian::delBook(std::string& str)
 {
 	Book_iter bookIterator = this->selectBook();
 	str=(*bookIterator)->getId();

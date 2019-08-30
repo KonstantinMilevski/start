@@ -24,14 +24,4 @@
         <auther>Tyler, Jenny</auther>
         <title>Adventure Programs</title>
     </Book>
-    <Book>
-        <Id>1145</Id>
-        <auther>qqqq</auther>
-        <title>eeee</title>
-    </Book>
-    <Book>
-        <Id>456</Id>
-        <auther>qwer..</auther>
-        <title>rtyu</title>
-    </Book>
 </Books>
