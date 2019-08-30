@@ -16,14 +16,14 @@ public:
 	void saveBookToXML();
 	void readBookFromXML();
 	void saveSingleBookToXML(Book&);
-	void delBookFromXML(std::string&);
+	void delBookFromXML(const std::string&);
 
 	void saveReaderToXML();
 	void readReaderFromXML();
-
-	
-
+		
 	void saveGivenBookToXML(const std::multimap<Reader_iter, Book_iter>&);
+
+	std::multimap<std::string, std::string> readGivenBookfromXML();
 
 private:
 	Librarian* lib;

@@ -14,32 +14,37 @@ using Book_t= std::vector<Book_iter>;
 using Reader_t = std::vector<Reader_iter>;
 
 
+
 // не дружить попробовать
 class Keeper;
 class Librarian
 {
 public:
-		
+	std::multimap<Reader_iter, Book_iter> givenBook;
+
 	Book createBook(std::istream& );
 	void addSingleBook(Book& );
 	void delBook(std::string& );
 	void showBooks();
 
+
 	//template<typename T>
 	
 	void showReaders();
-
+	std::string searchWord();
 	Reader_t findReaders(std::string& str);
 	Reader_iter selectReader();
 	
-	
-
-	Book_iter takeBookField();
-
 	Book_t findBooks(std::string& str);
 	Book_iter selectBook();
 
-	std::multimap<Reader_iter, Book_iter>  giveBook();
+	std::pair<Reader_iter, Book_iter> giveBook1();
+
+	void giveBook(std::multimap<Reader_iter, Book_iter>& );
+
+	std::multimap<Reader_iter, Book_iter> restoreLinks(std::multimap<std::string, std::string>&);
+	Book_iter restoreBookLink(std::string& );
+	Reader_iter restoreReaderLink(std::string& id);
 
 	friend void strTolower(std::string&);
 	friend std::istream& read(std::istream&, Book&);
@@ -49,5 +54,6 @@ private:
 	std::vector<std::unique_ptr <Reader>> allReaders;
 
 	std::vector<Book_iter> vecReadBooksIter;
+	
 };
 

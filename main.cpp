@@ -5,7 +5,7 @@
 
 #include "Keeper.h"
 
-
+// check sole ID
 
 int main()
 {
@@ -13,14 +13,13 @@ int main()
 	
 	Keeper k(&l);
 	k.readBookFromXML();
-	//k.readReaderFromXML();
+	k.readReaderFromXML();
 	
 	//Book temp=l.createBook(std::cin);
 	//l.addSingleBook(temp);
 	//k.saveSingleBookToXML(temp);
 
-	//l.showReaders();
-	l.showBooks();
+	l.showReaders();
 	std::string s;
 	//l.delBook(s);
 	//k.delBookFromXML(s);
@@ -29,7 +28,13 @@ int main()
 	//l.giveBook();
 	//l.giveBook();
 	//k.saveBookToXML();
-	//k.saveGivenBookToXML(l.giveBook());
+	std::multimap<Reader_iter, Book_iter> gB;
+	std::multimap<std::string, std::string> ms;  readGivenBookfromXML();
+	k.restoreLinks(ms);
+	l.giveBook(gB);
+	k.saveGivenBookToXML(gB);
+		
+	k.readGivenBookfromXML(ms);
 	
-	
+	return 0;
 }
