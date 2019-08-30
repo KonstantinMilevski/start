@@ -19,8 +19,9 @@ int main()
 	l.addSingleBook(temp);
 	k.saveSingleBookToXML(temp);
 
-	l.showReaders();
+	//l.showReaders();
 	l.showBooks();
+
 	//k.saveReaderToXML();
 	//l.giveBook();
 	//l.giveBook();
