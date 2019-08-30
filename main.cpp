@@ -29,12 +29,12 @@ int main()
 	//l.giveBook();
 	//k.saveBookToXML();
 	std::multimap<Reader_iter, Book_iter> gB;
-	std::multimap<std::string, std::string> ms;  readGivenBookfromXML();
+	std::multimap<std::string, std::string> ms = k.readGivenBookfromXML();
 	k.restoreLinks(ms);
 	l.giveBook(gB);
 	k.saveGivenBookToXML(gB);
 		
-	k.readGivenBookfromXML(ms);
+	//k.readGivenBookfromXML(ms);
 	
 	return 0;
 }

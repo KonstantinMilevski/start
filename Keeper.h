@@ -13,6 +13,8 @@ class Keeper:public Librarian
 public:
 	Keeper(Librarian* lib);
 
+	std::multimap<std::string, std::string> readGivenBookfromXML();
+
 	void saveBookToXML();
 	void readBookFromXML();
 	void saveSingleBookToXML(Book&);
@@ -23,7 +25,7 @@ public:
 		
 	void saveGivenBookToXML(const std::multimap<Reader_iter, Book_iter>&);
 
-	std::multimap<std::string, std::string> readGivenBookfromXML();
+	
 
 private:
 	Librarian* lib;
