@@ -1,20 +1,5 @@
 #include "Librarian.h"
 
-//void Librarian::addItemToLibrary(std::istream& is)
-//{
-//
-//	std::cout << "Enter the name: " << std::endl;
-//	Book str;
-//	if (read(is, str))
-//	{
-//		std::cout << "You entered : " << str << std::endl;
-//		auto tmp = std::unique_ptr<Book>(new Book(str));
-//		this->allBook.push_back(std::move(tmp));
-//		std::cout << "Book is added" << std::endl;
-//	}
-//	else
-//		std::cerr << "No data?!" << std::endl;
-//}
 
 void strTolower(std::string& s)
 {
@@ -24,26 +9,29 @@ void strTolower(std::string& s)
 	);
 }
 
-void Librarian::addBookToLibrary(std::istream& is)
+Book Librarian::createBook(std::istream& is)//check
 {
 	Book temp;
-	read(is, temp);
-	auto tmp = std::unique_ptr<Book>(new Book(temp));
+	if (read(is, temp))
+	{
+		return temp;
+	}
+}
+
+void Librarian::addSingleBook(Book& newBook)
+{
+	auto tmp = std::unique_ptr<Book>(new Book(newBook));
 	this->allBooks.push_back(std::move(tmp));
 }
 
-void Librarian::addReadersFromFile(std::istream& is)
+void Librarian::delBook(std::string str)
 {
-	{
-		Reader temp;
-		while (read(is, temp))
-		{
-			auto tmp = std::unique_ptr<Reader>(new Reader(temp));
-
-			this->allReaders.push_back(std::move(tmp));
-		}
-	}
+	Book_iter bookIterator = this->selectBook();
+	str=(*bookIterator)->getId();
+	this->allBooks.erase(bookIterator);
+	
 }
+
 
 void Librarian::showBooks()
 {
@@ -83,6 +71,7 @@ Reader_iter Librarian::selectReader()
 	if (vecReadersIter.empty())
 	{
 		std::cout << "No rezult, try again " << std::endl;
+		return this->allReaders.cend();//check
 	}
 	else
 	{
@@ -98,7 +87,7 @@ Reader_iter Librarian::selectReader()
 		{
 			std::cin.ignore(UINT_MAX, '\n');
 			std::cout << "Incorrect input, try again " << std::endl;
-			//throw out_of_range(msg);
+			return this->allReaders.cend();
 		}
 		else
 		{

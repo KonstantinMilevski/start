@@ -19,31 +19,23 @@ class Keeper;
 class Librarian
 {
 public:
-		//template<typename T>
-	void addBookToLibrary(std::istream& is);
-	void addReaderToLibrary(std::istream& is);
+		
+	Book createBook(std::istream& );
+	void addSingleBook(Book& );
+	void delBook(std::string );
+	void showBooks();
 
-	template<typename T>
-	void addItemFromFile(std::istream& is)
-	{
-		{
-			T str;
-			while (read(is, str))
-			{
-				auto tmp = std::shared_ptr<T>(new T(str));
-			
-				this->allBooks.push_back(std::move(tmp));
-			}
-		}
-	}
-	void addReadersFromFile(std::istream& is);
-
+	//template<typename T>
+	
 	void showReaders();
+
 	Reader_t findReaders(std::string& str);
 	Reader_iter selectReader();
+	
+	
 
+	Book_iter takeBookField();
 
-	void showBooks();
 	Book_t findBooks(std::string& str);
 	Book_iter selectBook();
 

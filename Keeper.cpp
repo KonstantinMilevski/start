@@ -147,7 +147,7 @@ void Keeper::readReaderFromXML()
 	}
 }
 
-void Keeper::saveSingleBookToXML()
+void Keeper::saveSingleBookToXML(Book& book)
 {
 	XMLDocument doc = new XMLDocument;
 	doc.LoadFile(book_last_name.c_str());
@@ -155,36 +155,40 @@ void Keeper::saveSingleBookToXML()
 	XMLNode* root = doc.FirstChildElement("Books");
 	if (root)
 	{
-		doc.InsertFirstChild(root);
-		XMLElement* el = doc.NewElement("Book");
-		el->SetText("SecondId");
-		root->LinkEndChild(el);
-		doc.LinkEndChild(root);
 /////////////
 		doc.InsertFirstChild(root);
+		XMLElement* el = doc.NewElement("Book");
+		XMLElement* id = doc.NewElement("Id");
+		id->SetText(book.getId().c_str());
+		el->InsertEndChild(id);
 
+		XMLElement* auther = doc.NewElement("auther");
+		auther->SetText(book.getAuther().c_str());
+		el->InsertEndChild(auther);
+
+		XMLElement* title = doc.NewElement("title");
+		title->SetText(book.getTitle().c_str());
+		el->InsertEndChild(title);
+
+		root->InsertEndChild(el);
 		
 	}
 	else
 	{
 		XMLNode* root = doc.NewElement("Books");
 		doc.InsertFirstChild(root);
-		XMLElement* el = doc.NewElement("Book");
-		el->SetText("FirstId");
-		root->LinkEndChild(el);
-		doc.LinkEndChild(root);
-		///
+		
 		XMLElement* el = doc.NewElement("Book");
 		XMLElement* id = doc.NewElement("Id");
-		id->SetText(item->getId().c_str());
+		id->SetText(book.getId().c_str());
 		el->InsertEndChild(id);
 
 		XMLElement* auther = doc.NewElement("auther");
-		auther->SetText(item->getAuther().c_str());
+		auther->SetText(book.getAuther().c_str());
 		el->InsertEndChild(auther);
 
 		XMLElement* title = doc.NewElement("title");
-		title->SetText(item->getTitle().c_str());
+		title->SetText(book.getTitle().c_str());
 		el->InsertEndChild(title);
 
 		root->InsertEndChild(el);
