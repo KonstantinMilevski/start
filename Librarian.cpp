@@ -23,7 +23,6 @@ void Librarian::addSingleBook(Book& newBook)
 	auto tmp = std::unique_ptr<Book>(new Book(newBook));
 	this->allBooks.push_back(std::move(tmp));
 }
-
 void Librarian::delBook(std::string& str)
 {
 	Book_iter bookIterator = this->selectBook();
@@ -31,20 +30,80 @@ void Librarian::delBook(std::string& str)
 	this->allBooks.erase(bookIterator);
 	
 }
-
-
 void Librarian::showBooks()
 {
 	for (const auto& book : allBooks)
-		book->show();
+		std::cout << *book<<std::endl;
 }
-
-void Librarian::showReaders()
+Book_iter Librarian::selectBook()
 {
-	for (const auto& reader : allReaders)
-		reader->show();
+	std::string temp = searchWord();
+	Book_t  vecBooksIter = this->findBooks(temp);
+	if (vecBooksIter.empty())
+	{
+		std::cout << "No rezult, try again " << std::endl;
+	}
+	else
+	{
+		unsigned int count = 1;
+		for (auto book : vecBooksIter)
+		{
+			std::cout << count << ". " << (**book) << std::endl;
+			count++;
+		}
+		std::cout << "Select the row" << std::endl;
+		unsigned int row(0);
+		if (!(std::cin >> row && row > 0 && row <= vecBooksIter.size()))
+		{
+			std::cin.ignore(UINT_MAX, '\n');
+			std::cout << "Incorrect input, try again " << std::endl;
+			//throw out_of_range(msg);
+		}
+		else
+		{
+			std::cin.ignore(UINT_MAX, '\n');
+			return vecBooksIter.at(row - 1);
+		}
+	}
+}
+Book_t Librarian::findBooks(std::string& searchString)
+{
+	Book_t vecBooksIter;
+	strTolower(searchString);
+	for (auto it = this->allBooks.cbegin(); it != this->allBooks.cend(); it++)
+	{
+		std::string returnFullName = (*it)->getId() + " " + (*it)->getAuther() + " " + (*it)->getTitle();
+		strTolower(returnFullName);
+		if (returnFullName.find(searchString) != std::string::npos)
+		{
+			vecBooksIter.push_back(it);
+		}
+	}
+	return  vecBooksIter;
+}
+void Librarian::showFoundBooks()
+{
+	std::string temp = searchWord();
+	Book_t  vecBooksIter = this->findBooks(temp);
+	if (vecBooksIter.empty())
+	{
+		std::cout << "No rezult, try again " << std::endl;
+	}
+	else
+	{
+		unsigned int count = 1;
+		for (auto book : vecBooksIter)
+		{
+			std::cout << count << ". " << (**book) << std::endl;
+			count++;
+		}
+	}
+
 }
 
+
+
+////
 std::string Librarian::searchWord()
 {
 	std::cout << "Enter a search phrase " << std::endl;
@@ -53,6 +112,7 @@ std::string Librarian::searchWord()
 	return temp;
 }
 
+////
 Reader_t Librarian::findReaders(std::string& searchString)
 {
 	Reader_t vecReadersIter;
@@ -68,7 +128,6 @@ Reader_t Librarian::findReaders(std::string& searchString)
 	}
 	return  vecReadersIter;
 }
-
 Reader_iter Librarian::selectReader()
 {
 	std::string temp = searchWord();
@@ -101,55 +160,16 @@ Reader_iter Librarian::selectReader()
 		}
 	}
 }
-
-Book_t Librarian::findBooks(std::string& searchString)
+void Librarian::showReaders()
 {
-	Book_t vecBooksIter;
-	strTolower(searchString);
-	for (auto it = this->allBooks.cbegin(); it != this->allBooks.cend(); it++)
-	{
-		std::string returnFullName = (*it)->getId() + " "+ (*it)->getAuther() + " " + (*it)->getTitle();
-		strTolower(returnFullName);
-		if (returnFullName.find(searchString) != std::string::npos)
-		{
-			vecBooksIter.push_back(it);
-		}
-	}
-	return  vecBooksIter;
-}
-// throw out_of_range(msg);
-Book_iter Librarian::selectBook()
-{
-	std::string temp = searchWord();
-	Book_t  vecBooksIter = this->findBooks(temp);
-	if (vecBooksIter.empty())
-	{
-		std::cout << "No rezult, try again " << std::endl;
-	}
-	else
-	{
-		unsigned int count = 1;
-		for (auto book : vecBooksIter)
-		{
-			std::cout << count << ". " << (**book) << std::endl;
-			count++;
-		}
-		std::cout << "Select the row" << std::endl;
-		unsigned int row(0);
-		if (!(std::cin >> row && row > 0 && row <= vecBooksIter.size()))
-		{
-			std::cin.ignore(UINT_MAX, '\n');
-			std::cout << "Incorrect input, try again " << std::endl;
-			//throw out_of_range(msg);
-		}
-		else
-		{
-			std::cin.ignore(UINT_MAX, '\n');
-			return vecBooksIter.at(row - 1);
-		}
-	}
+	for (const auto& reader : allReaders)
+		std::cout << *reader << std::endl;
 }
 
+
+
+
+//////////
 std::pair<Reader_iter, Book_iter> Librarian::giveBook1()
 {
 	Reader_iter r = this->selectReader();
@@ -166,6 +186,15 @@ void Librarian::giveBook(std::multimap<Reader_iter, Book_iter> & givenBook)
 	givenBook.insert(std::make_pair(r, b));
 
 }
+
+void Librarian::showGivenBooks(const std::multimap<Reader_iter, Book_iter>& givenBooks)// check empty
+{
+	for (const auto& pair : givenBooks)
+	{
+		std::cout << **pair.first << " : " << **pair.second << std::endl;
+	}
+}
+
 
 std::multimap<Reader_iter, Book_iter> Librarian::restoreLinks(std::multimap<std::string, std::string>& links)
 {
@@ -211,17 +240,4 @@ Reader_iter Librarian::restoreReaderLink(std::string& id)
 	}
 }
 
-
-//std::multimap<Reader_iter, Book_iter> Librarian::giveBook()
-//{
-//	//std::map<Reader_iter, std::vector<Book_iter>> readersWithBooks;
-//
-//	std::multimap<Reader_iter, Book_iter> readersWithBooks;
-//
-//	Reader_iter r = this->selectReader();
-//	Book_iter b=this->selectBook();
-//
-//	readersWithBooks.insert(std::make_pair(r, b));
-//	return readersWithBooks;
-//}
 

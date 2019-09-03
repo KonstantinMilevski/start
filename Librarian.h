@@ -37,12 +37,14 @@ public:
 	
 	Book_t findBooks(std::string& str);
 	Book_iter selectBook();
+	void showFoundBooks();
 
 	std::pair<Reader_iter, Book_iter> giveBook1();
 
 	void giveBook(std::multimap<Reader_iter, Book_iter>& );
-
+	void showGivenBooks(const std::multimap<Reader_iter, Book_iter>&);
 	std::multimap<Reader_iter, Book_iter> restoreLinks(std::multimap<std::string, std::string>&);
+	
 	Book_iter restoreBookLink(std::string& );
 	Reader_iter restoreReaderLink(std::string& id);
 

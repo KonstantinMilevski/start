@@ -55,7 +55,7 @@ void Book::show()
 
 std::ostream& operator<<(std::ostream& os, const Book& book)
 {
-	os << book.id << book.auther << book.title;
+	os << book.id <<" : "<< book.auther <<" : "<< book.title;
 	return os;
 }
 std::istream& read(std::istream& is, Book& item)

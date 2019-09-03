@@ -17,7 +17,7 @@ std::istream& read(std::istream& is, Reader& item)
 }
 std::ostream& operator<<(std::ostream& os, const Reader& Reader)
 {
-	os << Reader.id << Reader.name << Reader.surname;
+	os << Reader.id<<" : " << Reader.name << ", " << Reader.surname;
 	return os;
 }
 void Reader::setReader(std::string id, std::string name, std::string surname)
