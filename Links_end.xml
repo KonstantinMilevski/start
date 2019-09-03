@@ -1,0 +1,10 @@
+<GivenBooks>
+    <Link>
+        <ReaderId>6666</ReaderId>
+        <BookId>2222</BookId>
+    </Link>
+    <Link>
+        <ReaderId>7777</ReaderId>
+        <BookId>5555</BookId>
+    </Link>
+</GivenBooks>

@@ -11,16 +11,19 @@
 int main()
 {
 	Librarian l;
-	Menu m;
+	Menu m(&l);
 	Keeper k(&l);
-	std::multimap<Reader_iter, Book_iter> gB;
+	std::multimap<Reader_iter, Book_iter> givenB;
 	std::multimap<std::string, std::string> ms = k.readGivenBookfromXML();
 	std::string s;
 
 	k.readBookFromXML();
 	k.readReaderFromXML();
 		
-			
+	givenB = l.restoreLinks(ms);
+	
+
+
 	unsigned int choice;
 	do
 	{
@@ -50,22 +53,21 @@ int main()
 			break;
 		case 6:
 		{
-			l.giveBook(gB);
-			k.saveGivenBookToXML(gB);
+			l.giveBook(givenB);
+			k.saveGivenBookToXML(givenB);
 		}
 			break;
 		case 7:
-			l.showGivenBooks(gB);
+			l.showGivenBooks(givenB);
 			break;
 		case 8:
-		{
-			std::multimap<Reader_iter, Book_iter> resLinks;
-			resLinks=l.restoreLinks(ms);
-			l.showGivenBooks(resLinks);
-			//k.saveGivenBookToXML(gB);
-		}
+		
 			break;
 		case 9:
+		{
+			l.returnBook(givenB);
+			k.saveGivenBookToXML(givenB);
+		}
 			break;
 		case 10:
 			break;

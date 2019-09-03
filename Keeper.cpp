@@ -262,10 +262,8 @@ std::multimap<std::string, std::string> Keeper::readGivenBookfromXML()
 
 		for (auto link = root->FirstChildElement(); link; link = link->NextSiblingElement())
 		{
-			std::cout << link->FirstChild()->FirstChild()->Value() << std::endl;
-			std::cout << link->FirstChild()->NextSiblingElement()->FirstChild()->Value() << std::endl;
-			givenBooks.emplace(link->FirstChild()->FirstChild()->Value(), link->FirstChild()->NextSiblingElement()->FirstChild()->Value());
-
+			givenBooks.emplace(link->FirstChild()->FirstChild()->Value(),
+								link->FirstChild()->NextSiblingElement()->FirstChild()->Value());
 		}
 		return givenBooks;
 	}

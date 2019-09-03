@@ -43,10 +43,10 @@ public:
 
 	void giveBook(std::multimap<Reader_iter, Book_iter>& );
 	void showGivenBooks(const std::multimap<Reader_iter, Book_iter>&);
-	std::multimap<Reader_iter, Book_iter> restoreLinks(std::multimap<std::string, std::string>&);
-	
-	Book_iter restoreBookLink(const std::string&);
+	void returnBook(std::multimap<Reader_iter, Book_iter>&);
 
+	std::multimap<Reader_iter, Book_iter> restoreLinks(std::multimap<std::string, std::string>&);
+	Book_iter restoreBookLink(const std::string&);
 	Reader_iter restoreReaderLink(std::string& );
 
 	friend void strTolower(std::string&);

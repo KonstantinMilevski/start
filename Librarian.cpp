@@ -181,11 +181,18 @@ std::pair<Reader_iter, Book_iter> Librarian::giveBook1()
 
 void Librarian::giveBook(std::multimap<Reader_iter, Book_iter> & givenBook)
 {
-	Reader_iter r = this->selectReader();
-	Book_iter b = this->selectBook();
+	Reader_iter readerIt = this->selectReader();
+	Book_iter bookIt = this->selectBook();
 
-	givenBook.insert(std::make_pair(r, b));
-
+	for (auto pos = givenBook.cbegin(); pos != givenBook.cend(); ++pos)
+	{
+		if (pos->second == bookIt)
+		{
+			std::cout << "Book is using, try another " << std::endl;
+			return;
+		}
+	}
+	givenBook.insert(std::make_pair(readerIt, bookIt));
 }
 
 void Librarian::showGivenBooks(const std::multimap<Reader_iter, Book_iter>& givenBooks)// check empty
@@ -196,11 +203,29 @@ void Librarian::showGivenBooks(const std::multimap<Reader_iter, Book_iter>& give
 	}
 }
 
+void Librarian::returnBook(std::multimap<Reader_iter, Book_iter>& givenBooks)
+{
+	Reader_iter readerIt = this->selectReader();
+	std::cout << (**readerIt) << ":" << std::endl;
+	for (auto pos = givenBooks.equal_range(readerIt); pos.first != pos.second; ++pos.first)
+	{
+		std::cout << **pos.first->second << std::endl;
+	}
+	Book_iter bookIt = this->selectBook();
+	for (auto pos = givenBooks.equal_range(readerIt); pos.first != pos.second; ++pos.first)
+	{
+		if (pos.first->second== bookIt)
+		{
+			givenBooks.erase(pos.first);
+			break;
+		}
+	}
+}
+
 ////////////////
 std::multimap<Reader_iter, Book_iter> Librarian::restoreLinks(std::multimap<std::string, std::string>& links)
 {
 	std::multimap<Reader_iter, Book_iter> restoredLinks;
-			
 	for (auto pair : links)
 	{
 		 std::string r = pair.first;
@@ -211,6 +236,7 @@ std::multimap<Reader_iter, Book_iter> Librarian::restoreLinks(std::multimap<std:
 		 //givenBook.emplace(restoreReaderLink(r), restoreBookLink(b));
 		 restoredLinks.emplace(rIt, bIt);
 	}
+	std::cout << "Links had been restored " << std::endl;
 	return restoredLinks;
 
 }
