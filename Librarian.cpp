@@ -70,27 +70,16 @@ Book_t Librarian::findBooks(std::string& searchString)
 {
 	Book_t vecBooksIter;
 	strTolower(searchString);
-	for (const auto& bookIt: this->allBooks)
+	
+	for (auto it = this->allBooks.cbegin(); it != this->allBooks.cend(); it++)
 	{
-		
-
-		std::string returnFullName = bookIt->getId() + " " + bookIt->getAuther() + " " + bookIt->getTitle();
+		std::string returnFullName = (*it)->getId() + " " + (*it)->getAuther() + " " + (*it)->getTitle();
 		strTolower(returnFullName);
 		if (returnFullName.find(searchString) != std::string::npos)
-		{	
-			std::cout << *bookIt << std::endl; 
+		{
+			vecBooksIter.push_back(it);
 		}
 	}
-
-	//for (auto it = this->allBooks.cbegin(); it != this->allBooks.cend(); it++)
-	//{
-	//	std::string returnFullName = (*it)->getId() + " " + (*it)->getAuther() + " " + (*it)->getTitle();
-	//	strTolower(returnFullName);
-	//	if (returnFullName.find(searchString) != std::string::npos)
-	//	{
-	//		vecBooksIter.push_back(it);
-	//	}
-	//}
 	return  vecBooksIter;
 }
 void Librarian::showFoundBooks()
@@ -216,24 +205,28 @@ std::multimap<Reader_iter, Book_iter> Librarian::restoreLinks(std::multimap<std:
 	{
 		 std::string r = pair.first;
 		 std::string b = pair.second;
-		 givenBook.emplace(restoreReaderLink(r), restoreBookLink(b));
+		 Book_iter bIt=restoreBookLink(b);
+		// 
+		 Reader_iter rIt = restoreReaderLink(r);
+		 //givenBook.emplace(restoreReaderLink(r), restoreBookLink(b));
+		 restoredLinks.emplace(rIt, bIt);
 	}
 	return restoredLinks;
 
 }
-//check
-Book_iter Librarian::restoreBookLink(std::string& id)
+
+Book_iter Librarian::restoreBookLink(const std::string& id)
 {
-	Book_t  vecBooksIter = this->findBooks(id);
-	if (vecBooksIter.empty())
+
+	for (auto it = this->allBooks.begin(); it != this->allBooks.end(); it++)
 	{
-		std::cout << "No rezult, try again " << std::endl;
+		std::string returnFullName = (*it)->getId() + " " + (*it)->getAuther() + " " + (*it)->getTitle();
+		strTolower(returnFullName);
+		if (returnFullName.find(id) != std::string::npos)
+		{
+			return it;
+		}
 	}
-	else
-	{
-	return vecBooksIter.at(0);
-	}
-	
 }
 
 Reader_iter Librarian::restoreReaderLink(std::string& id)

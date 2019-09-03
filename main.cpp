@@ -59,8 +59,9 @@ int main()
 			break;
 		case 8:
 		{
-			k.restoreLinks(ms);
-			l.showGivenBooks(gB);
+			std::multimap<Reader_iter, Book_iter> resLinks;
+			resLinks=l.restoreLinks(ms);
+			l.showGivenBooks(resLinks);
 			//k.saveGivenBookToXML(gB);
 		}
 			break;
