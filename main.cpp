@@ -19,22 +19,7 @@ int main()
 
 	k.readBookFromXML();
 	k.readReaderFromXML();
-	
-	//Book temp=l.createBook(std::cin);
-	//l.addSingleBook(temp);
-	//k.saveSingleBookToXML(temp);
 		
-	//l.delBook(s);
-	//k.delBookFromXML(s);
-
-	//k.saveReaderToXML();
-	//l.giveBook();
-	//l.giveBook();
-	//k.saveBookToXML();
-	
-	//k.restoreLinks(ms);
-	//l.giveBook(gB);
-	//k.saveGivenBookToXML(gB);
 			
 	unsigned int choice;
 	do
@@ -73,7 +58,11 @@ int main()
 			l.showGivenBooks(gB);
 			break;
 		case 8:
-			
+		{
+			k.restoreLinks(ms);
+			l.showGivenBooks(gB);
+			//k.saveGivenBookToXML(gB);
+		}
 			break;
 		case 9:
 			break;

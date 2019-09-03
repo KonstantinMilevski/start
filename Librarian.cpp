@@ -70,15 +70,27 @@ Book_t Librarian::findBooks(std::string& searchString)
 {
 	Book_t vecBooksIter;
 	strTolower(searchString);
-	for (auto it = this->allBooks.cbegin(); it != this->allBooks.cend(); it++)
+	for (const auto& bookIt: this->allBooks)
 	{
-		std::string returnFullName = (*it)->getId() + " " + (*it)->getAuther() + " " + (*it)->getTitle();
+		
+
+		std::string returnFullName = bookIt->getId() + " " + bookIt->getAuther() + " " + bookIt->getTitle();
 		strTolower(returnFullName);
 		if (returnFullName.find(searchString) != std::string::npos)
-		{
-			vecBooksIter.push_back(it);
+		{	
+			std::cout << *bookIt << std::endl; 
 		}
 	}
+
+	//for (auto it = this->allBooks.cbegin(); it != this->allBooks.cend(); it++)
+	//{
+	//	std::string returnFullName = (*it)->getId() + " " + (*it)->getAuther() + " " + (*it)->getTitle();
+	//	strTolower(returnFullName);
+	//	if (returnFullName.find(searchString) != std::string::npos)
+	//	{
+	//		vecBooksIter.push_back(it);
+	//	}
+	//}
 	return  vecBooksIter;
 }
 void Librarian::showFoundBooks()
@@ -195,13 +207,11 @@ void Librarian::showGivenBooks(const std::multimap<Reader_iter, Book_iter>& give
 	}
 }
 
-
+////////////////
 std::multimap<Reader_iter, Book_iter> Librarian::restoreLinks(std::multimap<std::string, std::string>& links)
 {
 	std::multimap<Reader_iter, Book_iter> restoredLinks;
-
-	std::multimap<Reader_iter, Book_iter> givenBook;
-	
+			
 	for (auto pair : links)
 	{
 		 std::string r = pair.first;
