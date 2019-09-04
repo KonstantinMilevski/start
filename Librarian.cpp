@@ -171,13 +171,7 @@ void Librarian::showReaders()
 
 
 //////////
-std::pair<Reader_iter, Book_iter> Librarian::giveBook1()
-{
-	Reader_iter r = this->selectReader();
-	Book_iter b = this->selectBook();
 
-	return std::make_pair(r, b);
-}
 
 void Librarian::giveBook(std::multimap<Reader_iter, Book_iter> & givenBook)
 {

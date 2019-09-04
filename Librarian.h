@@ -39,7 +39,7 @@ public:
 	Book_iter selectBook();
 	void showFoundBooks();
 
-	std::pair<Reader_iter, Book_iter> giveBook1();
+	
 
 	void giveBook(std::multimap<Reader_iter, Book_iter>& );
 	void showGivenBooks(const std::multimap<Reader_iter, Book_iter>&);
