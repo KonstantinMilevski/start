@@ -7,14 +7,18 @@
 #include "Menu.h"
 
 // check sole ID
+// save after duable book
+// add link - save given book, now rewhrite
+
+
 
 int main()
 {
 	Librarian l;
 	Menu m(&l);
 	Keeper k(&l);
-	std::multimap<Reader_iter, Book_iter> givenB;
-	std::multimap<std::string, std::string> ms = k.readGivenBookfromXML();
+	std::map<Book_iter, Reader_iter> givenB;
+	std::map<std::string, std::string> ms = k.readGivenBookfromXML();
 	std::string s;
 
 	k.readBookFromXML();

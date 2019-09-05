@@ -222,23 +222,23 @@ void Keeper::delBookFromXML(const std::string& compare)
 
 }
 
-void Keeper::saveGivenBookToXML(const std::multimap<Reader_iter, Book_iter>& givenBook)
+void Keeper::saveGivenBookToXML(const std::map<Book_iter, Reader_iter>& givenBook)
 {
 	XMLDocument doc = new XMLDocument;
 	XMLNode* root = doc.NewElement("GivenBooks");
 	doc.InsertFirstChild(root);
 
 	
-	for (auto it = givenBook.begin(); it != givenBook.end(); ++it)
+	for (auto itPair = givenBook.begin(); itPair != givenBook.end(); ++itPair)
 	{
 		XMLElement* el = doc.NewElement("Link");
 		//el->SetAttribute("All books", "5");
-		XMLElement* readerId = doc.NewElement("ReaderId");
-		readerId->SetText((*(it->first))->getId().c_str());
+		XMLElement* readerId = doc.NewElement("BookId");
+		readerId->SetText((*(itPair->first))->getId().c_str());
 		el->InsertEndChild(readerId);
 
-		XMLElement* bookId = doc.NewElement("BookId");
-		bookId->SetText((*(it->second))->getId().c_str());
+		XMLElement* bookId = doc.NewElement("ReaderId");
+		bookId->SetText((*(itPair->second))->getId().c_str());
 		el->InsertEndChild(bookId);
 			   
 		root->InsertEndChild(el);
@@ -251,9 +251,9 @@ void Keeper::saveGivenBookToXML(const std::multimap<Reader_iter, Book_iter>& giv
 	}
 }
 
-std::multimap<std::string, std::string> Keeper::readGivenBookfromXML()
+std::map<std::string, std::string> Keeper::readGivenBookfromXML()
 {
-	std::multimap<std::string, std::string> givenBooks;
+	std::map<std::string, std::string> givenBooks;
 	XMLDocument doc = new XMLDocument;
 	doc.LoadFile(links_last_name.c_str());
 	if (!doc.Error())
@@ -262,6 +262,7 @@ std::multimap<std::string, std::string> Keeper::readGivenBookfromXML()
 
 		for (auto link = root->FirstChildElement(); link; link = link->NextSiblingElement())
 		{
+			
 			givenBooks.emplace(link->FirstChild()->FirstChild()->Value(),
 								link->FirstChild()->NextSiblingElement()->FirstChild()->Value());
 		}

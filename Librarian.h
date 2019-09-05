@@ -20,7 +20,7 @@ class Keeper;
 class Librarian
 {
 public:
-	std::multimap<Reader_iter, Book_iter> givenBook;
+	std::map<Book_iter, Reader_iter> givenBook;//*+
 
 	Book createBook(std::istream& );
 	void addSingleBook(Book& );
@@ -41,11 +41,11 @@ public:
 
 	
 
-	void giveBook(std::multimap<Reader_iter, Book_iter>& );
-	void showGivenBooks(const std::multimap<Reader_iter, Book_iter>&);
-	void returnBook(std::multimap<Reader_iter, Book_iter>&);
+	void giveBook(std::map<Book_iter, Reader_iter>& );//*++
+	void showGivenBooks(const std::map<Book_iter, Reader_iter>&);//*+
+	void returnBook(std::map<Book_iter, Reader_iter>&);//*+
 
-	std::multimap<Reader_iter, Book_iter> restoreLinks(std::multimap<std::string, std::string>&);
+	std::map<Book_iter, Reader_iter> restoreLinks(std::map<std::string, std::string>&);//*+
 	Book_iter restoreBookLink(const std::string&);
 	Reader_iter restoreReaderLink(std::string& );
 
