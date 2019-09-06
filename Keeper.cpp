@@ -67,11 +67,11 @@ void Keeper::readBookFromXML()
 		while (book)
 		{
 			XMLElement* id = book->FirstChildElement(); //"Id"
-			std::cout << id->GetText() << std::endl;
+			//std::cout << id->GetText() << std::endl;
 			XMLElement* auther = id->NextSiblingElement();
-			std::cout << auther->GetText() << std::endl;
+			//std::cout << auther->GetText() << std::endl;
 			XMLElement* title = auther->NextSiblingElement();
-			std::cout << title->GetText() << std::endl;
+			//std::cout << title->GetText() << std::endl;
 			Book temp;
 			temp.setBook(id->GetText(), auther->GetText(), title->GetText());
 			auto tmp = std::unique_ptr<Book>(new Book(temp));
@@ -264,8 +264,9 @@ std::map<std::string, std::string> Keeper::readGivenBookfromXML()
 			givenBooks.emplace(link->FirstChild()->FirstChild()->Value(),
 								link->FirstChild()->NextSiblingElement()->FirstChild()->Value());
 		}
-		return givenBooks;
+		
 	}
+	return givenBooks;
 }
 
 

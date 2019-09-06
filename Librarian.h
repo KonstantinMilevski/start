@@ -22,11 +22,12 @@ class Librarian
 public:
 	std::map<Book_iter, Reader_iter> givenBook;//*+
 
-	Book createBook(std::istream& );
-	Book addSingleBook();
-	void delBook(std::string& );
+	void createBook(std::istream&, Book&);
+	void addSingleBook(Book&);
+	bool delBook(std::string& );
 	void showBooks();
-
+	bool checkBookLinks(Book_iter& bookIterator);
+	
 
 	//template<typename T>
 	
@@ -34,12 +35,14 @@ public:
 	std::string searchWord();
 	Reader_t findReaders(std::string& str);
 	Reader_iter selectReader();
+
+
 	
 	Book_t findBooks(std::string& str);
 	Book_iter selectBook();
 	void showFoundBooks();
 
-	
+	bool checkReaderLinks(Reader_iter& );
 
 	void giveBook(std::map<Book_iter, Reader_iter>& );//*++
 	void showGivenBooks(const std::map<Book_iter, Reader_iter>&);//*+

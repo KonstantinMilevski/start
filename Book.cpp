@@ -9,7 +9,14 @@ Book::Book(std::string id, std::string auther, std::string title)
 
 Book::Book(std::istream& is) { read(is, *this); }
 
-void Book::setBook(std::string id, std::string auther, std::string title)
+void Book::setBook()
+{
+	this->id = "";
+	this->auther = "";
+	this->title = "";
+}
+
+void Book::setBook(std::string id="", std::string auther="", std::string title="")
 {
 	this->id= id;
 	this->auther = auther;

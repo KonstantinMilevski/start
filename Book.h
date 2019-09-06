@@ -12,6 +12,7 @@ public:
 	Book(std::string id, std::string auther, std::string title);
 	explicit Book(std::istream&);
 
+	void setBook();
 	void setBook(std::string id, std::string auther, std::string title);
 	void setBookId(std::string id);
 	const std::string getId();

@@ -9,16 +9,14 @@ void strTolower(std::string& s)
 	);
 }
 
-Book Librarian::createBook(std::istream& is)//check
+void Librarian::createBook(std::istream& is, Book& newbook)//check
 {
-	Book temp ;
-	if (read(is, temp))
+	if (read(is, newbook))
 	{
-		if (temp.isEmpty())
+		if (newbook.isEmpty())
 		{
 			throw std::exception("Empty field. Try again.");
 		}
-		return temp;
 	}
 	else
 	{
@@ -27,26 +25,24 @@ Book Librarian::createBook(std::istream& is)//check
 
 }
 
-Book Librarian::addSingleBook()
+void Librarian::addSingleBook(Book& newbook)
 {
-	Book temp;
 	try
 	{
 		std::cout << "Insert book's Id, auther, title" << std::endl;
-		temp = this->createBook(std::cin);
+		this->createBook(std::cin, newbook);
 	
-
 		for (const auto& book : allBooks)
 		{
-			if (book->getId() == temp.getId())
+			if (book->getId() == newbook.getId())
 			{
 				std::cout << "Book with such Id is in the library, try again" << std::endl;
-				
+				newbook.setBook();
+				return;
 			}
 		}
-		auto tmp = std::make_unique<Book>(temp);
+		auto tmp = std::make_unique<Book>(newbook);
 		this->allBooks.push_back(std::move(tmp));
-		return temp;
 	}
 	catch (const std::exception& ex)
 	{
@@ -54,17 +50,18 @@ Book Librarian::addSingleBook()
 	}
 
 }
-void Librarian::delBook(std::string& str)
-{
-	Book_iter bookIterator = this->selectBook();
-	str=(*bookIterator)->getId();
-	this->allBooks.erase(bookIterator);
-	
-}
+
 void Librarian::showBooks()
 {
 	for (const auto& book : allBooks)
 		std::cout << *book<<std::endl;
+}
+bool Librarian::checkBookLinks(Book_iter& bookIterator)
+{
+	if (givenBook.count(bookIterator))
+		return false;
+	else
+		return true;
 }
 Book_iter Librarian::selectBook()
 {
@@ -88,7 +85,6 @@ Book_iter Librarian::selectBook()
 		{
 			std::cin.ignore(UINT_MAX, '\n');
 			std::cout << "Incorrect input, try again " << std::endl;
-			//throw out_of_range(msg);
 		}
 		else
 		{
@@ -96,6 +92,7 @@ Book_iter Librarian::selectBook()
 			return vecBooksIter.at(row - 1);
 		}
 	}
+	return  allBooks.end() ;
 }
 Book_t Librarian::findBooks(std::string& searchString)
 {
@@ -132,7 +129,37 @@ void Librarian::showFoundBooks()
 	}
 
 }
-
+bool Librarian::checkReaderLinks(Reader_iter& readerIterator)
+{
+	for (const auto& pair: givenBook)
+	{
+		if (pair.second== readerIterator)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+bool Librarian::delBook(std::string& str)
+{
+	Book_iter bookIterator = this->selectBook();
+	if (bookIterator== allBooks.end())
+	{
+		std::cout << "Incorrect, try again " << std::endl;
+		return false;
+	}
+	else if (checkBookLinks(bookIterator))
+		{
+				str = (*bookIterator)->getId();
+				this->allBooks.erase(bookIterator);
+				return true;
+		}
+		else
+		{
+			std::cout << "Book isreading. You can't remove it. " << std::endl;
+			return false;
+		}
+}
 
 
 ////
@@ -199,10 +226,7 @@ void Librarian::showReaders()
 }
 
 
-
-
 //////////map<Book_ite, Reader_iter r>
-
 
 void Librarian::giveBook(std::map<Book_iter, Reader_iter>& givenBook)
 {
@@ -243,19 +267,27 @@ void Librarian::returnBook(std::map<Book_iter, Reader_iter>& givenBooks)
 std::map<Book_iter, Reader_iter> Librarian::restoreLinks(std::map<std::string, std::string>& links)
 {
 	std::map<Book_iter, Reader_iter> restoredLinks;
-	for (auto pair : links)
+	try
 	{
-		std::string book = pair.first;
-		std::string reader = pair.second;
-		//check return .cend  
-		 Book_iter bookIt=restoreBookLink(book);
-		 Reader_iter readerIt = restoreReaderLink(reader);
-		
-		 restoredLinks.emplace(bookIt, readerIt);
+		for (auto& pair : links)
+		{
+			std::string book = pair.first;
+			std::string reader = pair.second;
+			//check return .cend  &&&&&&&&&&&&&&
+			Book_iter bookIt = restoreBookLink(book);
+			Reader_iter readerIt = restoreReaderLink(reader);
+
+			restoredLinks.emplace(bookIt, readerIt);
+		}
+		std::cout << "Links had been restored " << std::endl;
 	}
-	std::cout << "Links had been restored " << std::endl;
+	catch (const std::exception&)
+	{
+
+	}
 	return restoredLinks;
 
+	
 }
 
 Book_iter Librarian::restoreBookLink(const std::string& id)
@@ -263,13 +295,15 @@ Book_iter Librarian::restoreBookLink(const std::string& id)
 
 	for (auto it = this->allBooks.begin(); it != this->allBooks.end(); it++)
 	{
-		std::string returnFullName = (*it)->getId() + " " + (*it)->getAuther() + " " + (*it)->getTitle();
-		strTolower(returnFullName);
-		if (returnFullName.find(id) != std::string::npos)
+		std::string returnFullName = (*it)->getId();// +" " + (*it)->getAuther() + " " + (*it)->getTitle();
+		//strTolower(returnFullName);
+		//if (returnFullName.find(id) != std::string::npos)
+		if (id == returnFullName)
 		{
 			return it;
 		}
 	}
+	throw std::exception("***Fail of restore books link.");
 }
 
 Reader_iter Librarian::restoreReaderLink(std::string& id)

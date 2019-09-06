@@ -9,6 +9,7 @@
 // check sole ID
 // save after duable book
 // add link - save given book, now rewhrite
+// check link before del book,  reader
 
 
 
@@ -39,12 +40,9 @@ int main()
 		case 1: 
 		{
 			Book temp;
+			l.addSingleBook(temp);
 			if (temp.isEmpty())
-			{
-				break;
-			}
-				
-			l.addSingleBook();
+					break;
 			k.saveSingleBookToXML(temp);
 		}
 			break; 
@@ -82,8 +80,8 @@ int main()
 			break;
 		case 11:
 		{
-			l.delBook(s);
-			k.delBookFromXML(s);
+			if (l.delBook(s))
+				k.delBookFromXML(s);
 		}
 			break;
 		default: std::cout << "Try again";
