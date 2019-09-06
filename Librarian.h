@@ -23,7 +23,7 @@ public:
 	std::map<Book_iter, Reader_iter> givenBook;//*+
 
 	Book createBook(std::istream& );
-	void addSingleBook(Book& );
+	Book addSingleBook();
 	void delBook(std::string& );
 	void showBooks();
 

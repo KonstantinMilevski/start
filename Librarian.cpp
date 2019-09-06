@@ -11,17 +11,48 @@ void strTolower(std::string& s)
 
 Book Librarian::createBook(std::istream& is)//check
 {
-	Book temp;
+	Book temp ;
 	if (read(is, temp))
 	{
+		if (temp.isEmpty())
+		{
+			throw std::exception("Empty field. Try again.");
+		}
 		return temp;
 	}
+	else
+	{
+		throw std::exception("Input fail. Try again.");
+	}
+
 }
 
-void Librarian::addSingleBook(Book& newBook)
+Book Librarian::addSingleBook()
 {
-	auto tmp = std::unique_ptr<Book>(new Book(newBook));
-	this->allBooks.push_back(std::move(tmp));
+	Book temp;
+	try
+	{
+		std::cout << "Insert book's Id, auther, title" << std::endl;
+		temp = this->createBook(std::cin);
+	
+
+		for (const auto& book : allBooks)
+		{
+			if (book->getId() == temp.getId())
+			{
+				std::cout << "Book with such Id is in the library, try again" << std::endl;
+				
+			}
+		}
+		auto tmp = std::make_unique<Book>(temp);
+		this->allBooks.push_back(std::move(tmp));
+		return temp;
+	}
+	catch (const std::exception& ex)
+	{
+		std::cout << "Catch " << ex.what() << std::endl;
+	}
+
 }
 void Librarian::delBook(std::string& str)
 {

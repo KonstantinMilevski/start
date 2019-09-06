@@ -38,8 +38,13 @@ int main()
 			break;
 		case 1: 
 		{
-			Book temp = l.createBook(std::cin);
-			l.addSingleBook(temp);
+			Book temp;
+			if (temp.isEmpty())
+			{
+				break;
+			}
+				
+			l.addSingleBook();
 			k.saveSingleBookToXML(temp);
 		}
 			break; 

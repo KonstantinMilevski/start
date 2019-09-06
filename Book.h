@@ -18,6 +18,7 @@ public:
 	const std::string getAuther();
 	const std::string getTitle();
 	void show();
+	bool isEmpty();
 	//void giveBook(Reader& newReader);
 	friend std::ostream& operator<<(std::ostream&, const Book&);
 	friend std::istream& read(std::istream&, Book&);

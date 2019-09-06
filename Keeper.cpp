@@ -50,8 +50,6 @@ void Keeper::saveBookToXML()
 
 void Keeper::readBookFromXML()
 {
-	
-
 	XMLDocument doc = new XMLDocument;
 	// add 
 	if (!(doc.LoadFile(book_first_name.c_str()) == XML_SUCCESS))
@@ -69,11 +67,11 @@ void Keeper::readBookFromXML()
 		while (book)
 		{
 			XMLElement* id = book->FirstChildElement(); //"Id"
-			//std::cout << id->GetText() << std::endl;
+			std::cout << id->GetText() << std::endl;
 			XMLElement* auther = id->NextSiblingElement();
-			//std::cout << auther->GetText() << std::endl;
+			std::cout << auther->GetText() << std::endl;
 			XMLElement* title = auther->NextSiblingElement();
-			//std::cout << title->GetText() << std::endl;
+			std::cout << title->GetText() << std::endl;
 			Book temp;
 			temp.setBook(id->GetText(), auther->GetText(), title->GetText());
 			auto tmp = std::unique_ptr<Book>(new Book(temp));

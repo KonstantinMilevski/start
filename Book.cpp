@@ -41,16 +41,13 @@ void Book::show()
 	std::cout << this->id << " - " << this->auther << " - " << this->title << std::endl;
 }
 
-//void Book::giveBook(Reader& newReader)
-//{
-//	if (!this->readerWithBook)
-//	{
-//		std::cout << "Book is reading"<<std::endl;
-//		return;
-//	}
-//	this->readerWithBook = std::make_shared<Reader>(newReader);
-//}
-
+bool Book::isEmpty()
+{
+	if (this->getId() == "" || this->getAuther() == "" || this->getTitle() == "")
+		return true;
+	else
+		return false; 
+}
 
 
 std::ostream& operator<<(std::ostream& os, const Book& book)
