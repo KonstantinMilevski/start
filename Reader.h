@@ -13,13 +13,15 @@ public:
 	explicit Reader(std::istream&);
 
 	void setReader(std::string , std::string , std::string );
+	void setReader();
 	void setReaderId(std::string );
 	std::string getId();
 	std::string getName();
 	std::string getSurname();
 	void show();
 	
-
+	bool isEmpty();
+	
 
 	friend std::ostream& operator<<(std::ostream&, const Reader&);
 	friend std::istream& read(std::istream&, Reader&);

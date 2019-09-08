@@ -17,12 +17,14 @@ public:
 
 	void saveBookToXML();
 	void readBookFromXML();
-	void saveSingleBookToXML(Book&);
+	void saveSingleBookToXML(const Book&);
 	void delBookFromXML(const std::string&);
 
 	void saveReaderToXML();
 	void readReaderFromXML();
-		
+	void saveSingleReaderToXML(Reader&);
+	void delReaderFromXML(const std::string&);
+
 	void saveGivenBookToXML(const std::map<Book_iter, Reader_iter>&);//*
 
 	

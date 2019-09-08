@@ -27,6 +27,13 @@ void Reader::setReader(std::string id, std::string name, std::string surname)
 	this->surname = surname;
 }
 
+void Reader::setReader()
+{
+	this->id = "";
+	this->name = "";
+	this->surname = "";
+}
+
 void Reader::setReaderId(std::string id)
 {
 	this->id = id;
@@ -50,5 +57,13 @@ std::string Reader::getSurname()
 void Reader::show()
 {
 	std::cout << this->id << " - " << this->name << " - " << this->surname << std::endl;
+}
+
+bool Reader::isEmpty()
+{
+	if (this->getId() == "" || this->getName() == "" || this->getSurname()== "")
+			return true;
+	else
+			return false;
 }
 

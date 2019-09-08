@@ -48,7 +48,6 @@ void Librarian::addSingleBook(Book& newbook)
 	{
 		std::cout << "Catch " << ex.what() << std::endl;
 	}
-
 }
 
 void Librarian::showBooks()
@@ -217,6 +216,64 @@ Reader_iter Librarian::selectReader()
 			std::cin.ignore(UINT_MAX, '\n');
 			return vecReadersIter.at(row - 1);
 		}
+	}
+}
+void Librarian::createReader(std::istream& is, Reader& newreader)
+{
+	if (read(is, newreader))
+	{
+		if (newreader.isEmpty())
+		{
+			throw std::exception("Empty field. Try again.");
+		}
+	}
+	else
+	{
+		throw std::exception("Input fail. Try again.");
+	}
+}
+void Librarian::addSingleReader(Reader& newreader)
+{
+	try
+	{
+		std::cout << "Insert reader's Id, auther, title" << std::endl;
+		this->createReader(std::cin, newreader);
+
+		for (const auto& reader : allReaders)
+		{
+			if (reader->getId() == newreader.getId())
+			{
+				std::cout << "Reader with such Id is in the library, try again" << std::endl;
+				newreader.setReader();
+				return;
+			}
+		}
+		auto tmp = std::make_unique<Reader>(newreader);
+		this->allReaders.push_back(std::move(tmp));
+	}
+	catch (const std::exception& ex)
+	{
+		std::cout << "Catch " << ex.what() << std::endl;
+	}
+}
+bool Librarian::delReader(std::string& path)
+{
+	Reader_iter readerIterator = this->selectReader();
+	if (readerIterator == allReaders.end())
+	{
+		std::cout << "Incorrect, try again " << std::endl;
+		return false;
+	}
+	else if (checkReaderLinks(readerIterator))
+	{
+		path = (*readerIterator)->getId();
+		this->allReaders.erase(readerIterator);
+		return true;
+	}
+	else
+	{
+		std::cout << "Reader is reading a book. You can't remove it. " << std::endl;
+		return false;
 	}
 }
 void Librarian::showReaders()

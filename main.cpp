@@ -6,10 +6,12 @@
 #include "Keeper.h"
 #include "Menu.h"
 
-// check sole ID
+// check sole ID +
 // save after duable book
 // add link - save given book, now rewhrite
-// check link before del book,  reader
+// check link before del book,  reader +
+// const in Get
+
 
 
 

@@ -15,9 +15,9 @@ public:
 	void setBook();
 	void setBook(std::string id, std::string auther, std::string title);
 	void setBookId(std::string id);
-	const std::string getId();
-	const std::string getAuther();
-	const std::string getTitle();
+	const std::string getId() const;
+	const std::string getAuther() const;
+	const std::string getTitle() const;
 	void show();
 	bool isEmpty();
 	//void giveBook(Reader& newReader);

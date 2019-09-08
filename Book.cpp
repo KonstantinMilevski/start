@@ -28,17 +28,17 @@ void Book::setBookId(std::string id)
 	this->id = id;
 }
 
-const std::string Book::getId()
+const std::string Book::getId() const
 {
 	return this->id;
 }
 
-const std::string Book::getAuther()
+const std::string Book::getAuther() const
 {
 	return this->auther;
 }
 
-const std::string Book::getTitle()
+const std::string Book::getTitle() const
 {
 	return this->title;
 }
