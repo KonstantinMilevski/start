@@ -55,9 +55,9 @@ void Librarian::showBooks()
 	for (const auto& book : allBooks)
 		std::cout << *book<<std::endl;
 }
-bool Librarian::checkBookLinks(Book_iter& bookIterator)
+bool Librarian::checkBookLinks(Book_iter& bookIterator, std::map<Book_iter, Reader_iter>& givenBooks)
 {
-	if (givenBook.count(bookIterator))
+	if (givenBooks.count(bookIterator))
 		return false;
 	else
 		return true;
@@ -128,18 +128,7 @@ void Librarian::showFoundBooks()
 	}
 
 }
-bool Librarian::checkReaderLinks(Reader_iter& readerIterator)
-{
-	for (const auto& pair: givenBook)
-	{
-		if (pair.second== readerIterator)
-		{
-			return false;
-		}
-	}
-	return true;
-}
-bool Librarian::delBook(std::string& str)
+bool Librarian::delBook(std::string& str, std::map<Book_iter, Reader_iter>& givenBooks)
 {
 	Book_iter bookIterator = this->selectBook();
 	if (bookIterator== allBooks.end())
@@ -147,7 +136,7 @@ bool Librarian::delBook(std::string& str)
 		std::cout << "Incorrect, try again " << std::endl;
 		return false;
 	}
-	else if (checkBookLinks(bookIterator))
+	else if (checkBookLinks(bookIterator, givenBooks))
 		{
 				str = (*bookIterator)->getId();
 				this->allBooks.erase(bookIterator);
@@ -256,7 +245,7 @@ void Librarian::addSingleReader(Reader& newreader)
 		std::cout << "Catch " << ex.what() << std::endl;
 	}
 }
-bool Librarian::delReader(std::string& path)
+bool Librarian::delReader(std::string& path, std::map<Book_iter, Reader_iter>& givenBooks)
 {
 	Reader_iter readerIterator = this->selectReader();
 	if (readerIterator == allReaders.end())
@@ -264,7 +253,7 @@ bool Librarian::delReader(std::string& path)
 		std::cout << "Incorrect, try again " << std::endl;
 		return false;
 	}
-	else if (checkReaderLinks(readerIterator))
+	else if (checkReaderLinks(readerIterator, givenBooks))
 	{
 		path = (*readerIterator)->getId();
 		this->allReaders.erase(readerIterator);
@@ -281,16 +270,27 @@ void Librarian::showReaders()
 	for (const auto& reader : allReaders)
 		std::cout << *reader << std::endl;
 }
+bool Librarian::checkReaderLinks(Reader_iter& readerIterator, std::map<Book_iter, Reader_iter>& givenBooks)
+{
+	for (const auto& pair : givenBooks)
+	{
+		if (pair.second == readerIterator)
+		{
+			return false;
+		}
+	}
+	return true;
+}
 
 
 //////////map<Book_ite, Reader_iter r>
 
-void Librarian::giveBook(std::map<Book_iter, Reader_iter>& givenBook)
+void Librarian::giveBook(std::map<Book_iter, Reader_iter>& givenBooks)
 {
 	const Reader_iter readerIt = this->selectReader();
 	const Book_iter bookIt = this->selectBook();
 	
-	auto result=givenBook.emplace(bookIt,readerIt);
+	auto result=givenBooks.emplace(bookIt,readerIt);
 	if (!result.second)
 	{
 		std::cout << "Book is using, try another " << std::endl;

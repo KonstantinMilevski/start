@@ -20,21 +20,21 @@ class Keeper;
 class Librarian
 {
 public:
-	std::map<Book_iter, Reader_iter> givenBook;//*+
+	std::map<Book_iter, Reader_iter> givenBooks;//*+
 
 	void createBook(std::istream&, Book&);
 	void addSingleBook(Book&);
-	bool delBook(std::string& );
+	bool delBook(std::string&, std::map<Book_iter, Reader_iter>& );
 	void showBooks();
-	bool checkBookLinks(Book_iter& bookIterator);
+	bool checkBookLinks(Book_iter& bookIterator, std::map<Book_iter, Reader_iter>&);
 	Book_t findBooks(std::string& str);
 	Book_iter selectBook();
 		
 	void createReader(std::istream&, Reader&);
 	void addSingleReader(Reader&);
-	bool delReader(std::string&);
+	bool delReader(std::string&, std::map<Book_iter, Reader_iter>& );
 	void showReaders();
-	bool checkReaderLinks(Reader_iter&);
+	bool checkReaderLinks(Reader_iter&, std::map<Book_iter, Reader_iter>&);
 	Reader_t findReaders(std::string& str);
 	Reader_iter selectReader();
 

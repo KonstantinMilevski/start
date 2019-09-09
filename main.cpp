@@ -6,11 +6,12 @@
 #include "Keeper.h"
 #include "Menu.h"
 
-// check sole ID +
 // save after duable book
 // add link - save given book, now rewhrite
 // check link before del book,  reader +
 // const in Get
+//check loosen links
+
 
 
 
@@ -29,8 +30,6 @@ int main()
 		
 	givenB = l.restoreLinks(ms);
 	
-
-
 	unsigned int choice;
 	do
 	{
@@ -49,7 +48,13 @@ int main()
 		}
 			break; 
 		case 2:
-		
+		{
+			Reader temp;
+			l.addSingleReader(temp);
+			if (temp.isEmpty())
+				break;
+			k.saveSingleReaderToXML(temp);
+		}
 			break;
 		case 3:
 			l.showBooks();
@@ -79,10 +84,14 @@ int main()
 		}
 			break;
 		case 10:
-			break;
+		{
+			if (l.delReader(s, givenB))
+				k.delReaderFromXML(s);
+		}
+		break;
 		case 11:
 		{
-			if (l.delBook(s))
+			if (l.delBook(s, givenB))
 				k.delBookFromXML(s);
 		}
 			break;

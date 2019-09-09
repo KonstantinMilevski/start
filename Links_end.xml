@@ -1,9 +1,5 @@
 <GivenBooks>
     <Link>
-        <BookId>2222</BookId>
-        <ReaderId>6666</ReaderId>
-    </Link>
-    <Link>
         <BookId>3333</BookId>
         <ReaderId>1010</ReaderId>
     </Link>

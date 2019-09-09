@@ -81,6 +81,82 @@ void Keeper::readBookFromXML()
 	}
 }
 
+void Keeper::saveSingleBookToXML(const Book& book)
+{
+	XMLDocument doc = new XMLDocument;
+	doc.LoadFile(book_last_name.c_str());
+
+	XMLNode* root = doc.FirstChildElement("Books");
+	if (root)
+	{
+		doc.InsertFirstChild(root);
+		XMLElement* el = doc.NewElement("Book");
+		XMLElement* id = doc.NewElement("Id");
+		id->SetText(book.getId().c_str());
+		el->InsertEndChild(id);
+
+		XMLElement* auther = doc.NewElement("auther");
+		auther->SetText(book.getAuther().c_str());
+		el->InsertEndChild(auther);
+
+		XMLElement* title = doc.NewElement("title");
+		title->SetText(book.getTitle().c_str());
+		el->InsertEndChild(title);
+
+		root->InsertEndChild(el);
+	}
+	else
+	{
+		XMLNode* root = doc.NewElement("Books");
+		doc.InsertFirstChild(root);
+		
+		XMLElement* el = doc.NewElement("Book");
+		XMLElement* id = doc.NewElement("Id");
+		id->SetText(book.getId().c_str());
+		el->InsertEndChild(id);
+
+		XMLElement* auther = doc.NewElement("auther");
+		auther->SetText(book.getAuther().c_str());
+		el->InsertEndChild(auther);
+
+		XMLElement* title = doc.NewElement("title");
+		title->SetText(book.getTitle().c_str());
+		el->InsertEndChild(title);
+
+		root->InsertEndChild(el);
+	}
+
+	if (doc.SaveFile(book_last_name.c_str()) == XML_SUCCESS)
+	{
+		std::cout << "Books  saved:" << std::endl;
+	}
+}
+
+void Keeper::delBookFromXML(const std::string& compare)
+{
+
+	XMLDocument doc = new XMLDocument;
+	doc.LoadFile(book_last_name.c_str());
+	if (doc.Error())
+		return;
+	XMLNode* root = doc.FirstChildElement();
+	XMLElement* el;
+	for (el = root->FirstChildElement(); el; el = el->NextSiblingElement())
+	{
+		if (compare == el->FirstChild()->FirstChild()->Value())
+		{
+			root->DeleteChild(el);
+			break;
+		}
+	}
+	if (doc.SaveFile(book_last_name.c_str()) == XML_SUCCESS)
+	{
+		std::cout << "Book remove. Books  saved:" << book_last_name << std::endl;
+	}
+
+}
+
+
 void Keeper::saveReaderToXML()
 {
 	XMLDocument doc = new XMLDocument;
@@ -116,7 +192,7 @@ void Keeper::readReaderFromXML()
 
 	XMLDocument doc = new XMLDocument;
 	// add 
-	if (!(doc.LoadFile(reader_first_name.c_str()) == XML_SUCCESS))
+	if (!(doc.LoadFile(reader_last_name.c_str()) == XML_SUCCESS))
 	{
 		std::cout << "Bad open " << reader_first_name << std::endl;
 		return;
@@ -145,10 +221,10 @@ void Keeper::readReaderFromXML()
 	}
 }
 
-void Keeper::saveSingleReaderToXML( Reader& reader)
+void Keeper::saveSingleReaderToXML(Reader& reader)
 {
 	XMLDocument doc = new XMLDocument;
-	doc.LoadFile(book_last_name.c_str());
+	doc.LoadFile(reader_last_name.c_str());
 
 	XMLNode* root = doc.FirstChildElement("Readers");
 	if (root)
@@ -156,7 +232,7 @@ void Keeper::saveSingleReaderToXML( Reader& reader)
 		doc.InsertFirstChild(root);
 		XMLElement* el = doc.NewElement("Reader");
 		XMLElement* id = doc.NewElement("Id");
-		id->SetText(reader.getId()  .c_str());
+		id->SetText(reader.getId().c_str());
 		el->InsertEndChild(id);
 
 		XMLElement* name = doc.NewElement("name");
@@ -212,90 +288,19 @@ void Keeper::delReaderFromXML(const std::string& compare)
 			break;
 		}
 	}
-}
-
-void Keeper::saveSingleBookToXML(const Book& book)
-{
-	XMLDocument doc = new XMLDocument;
-	doc.LoadFile(book_last_name.c_str());
-
-	XMLNode* root = doc.FirstChildElement("Books");
-	if (root)
+	if (doc.SaveFile(reader_last_name.c_str()) == XML_SUCCESS)
 	{
-		doc.InsertFirstChild(root);
-		XMLElement* el = doc.NewElement("Book");
-		XMLElement* id = doc.NewElement("Id");
-		id->SetText(book.getId().c_str());
-		el->InsertEndChild(id);
-
-		XMLElement* auther = doc.NewElement("auther");
-		auther->SetText(book.getAuther().c_str());
-		el->InsertEndChild(auther);
-
-		XMLElement* title = doc.NewElement("title");
-		title->SetText(book.getTitle().c_str());
-		el->InsertEndChild(title);
-
-		root->InsertEndChild(el);
-	}
-	else
-	{
-		XMLNode* root = doc.NewElement("Books");
-		doc.InsertFirstChild(root);
-		
-		XMLElement* el = doc.NewElement("Book");
-		XMLElement* id = doc.NewElement("Id");
-		id->SetText(book.getId().c_str());
-		el->InsertEndChild(id);
-
-		XMLElement* auther = doc.NewElement("auther");
-		auther->SetText(book.getAuther().c_str());
-		el->InsertEndChild(auther);
-
-		XMLElement* title = doc.NewElement("title");
-		title->SetText(book.getTitle().c_str());
-		el->InsertEndChild(title);
-
-		root->InsertEndChild(el);
-	}
-
-	if (doc.SaveFile(book_last_name.c_str()) == XML_SUCCESS)
-	{
-		std::cout << "Books  saved:" << std::endl;
+		std::cout << "Reader remove. Change  saved:" << book_last_name << std::endl;
 	}
 }
 
-void Keeper::delBookFromXML(const std::string& compare)
-{
-	
-	XMLDocument doc = new XMLDocument;
-	doc.LoadFile(book_last_name.c_str());
-	if (doc.Error())
-		return;
-	XMLNode* root = doc.FirstChildElement();
-	XMLElement* el;
-	for (el = root->FirstChildElement(); el; el = el->NextSiblingElement())
-	{
-		if (compare == el->FirstChild()->FirstChild()->Value())
-		{
-			root->DeleteChild(el);
-			break;
-		}
-	}
-	if (doc.SaveFile(book_last_name.c_str()) == XML_SUCCESS)
-	{
-		std::cout << "Book remove. Books  saved:" << book_last_name << std::endl;
-	}
-
-}
-
-void Keeper::saveGivenBookToXML(const std::map<Book_iter, Reader_iter>& givenBook)
+void Keeper::saveGivenBookToXML(const std::map<Book_iter, Reader_iter>& givenBooks)
 {
 	XMLDocument doc = new XMLDocument;
 	XMLNode* root = doc.NewElement("GivenBooks");
 	doc.InsertFirstChild(root);
 		
-	for (auto itPair = givenBook.begin(); itPair != givenBook.end(); ++itPair)
+	for (auto itPair = givenBooks.cbegin(); itPair != givenBooks.cend(); ++itPair)
 	{
 		XMLElement* el = doc.NewElement("Link");
 		//el->SetAttribute("All books", "5");
@@ -310,7 +315,6 @@ void Keeper::saveGivenBookToXML(const std::map<Book_iter, Reader_iter>& givenBoo
 		root->InsertEndChild(el);
 	}
 
-	
 	if (doc.SaveFile(links_last_name.c_str()) == XML_SUCCESS)
 	{
 		std::cout << "Links  saved:" << links_last_name << std::endl;
