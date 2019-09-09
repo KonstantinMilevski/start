@@ -283,8 +283,6 @@ bool Librarian::checkReaderLinks(Reader_iter& readerIterator, std::map<Book_iter
 }
 
 
-//////////map<Book_ite, Reader_iter r>
-
 void Librarian::giveBook(std::map<Book_iter, Reader_iter>& givenBooks)
 {
 	const Reader_iter readerIt = this->selectReader();
@@ -299,9 +297,16 @@ void Librarian::giveBook(std::map<Book_iter, Reader_iter>& givenBooks)
 
 void Librarian::showGivenBooks(const std::map<Book_iter, Reader_iter >& givenBooks)// check empty
 {
-	for (const auto& pair : givenBooks)
+	if (givenBooks.empty())
 	{
-		std::cout << **pair.first << " : " << **pair.second << std::endl;
+		std::cout << "No given books"<< std::endl;
+	}
+	else
+	{
+		for (const auto& pair : givenBooks)
+		{
+			std::cout << **pair.first << " : " << **pair.second << std::endl;
+		}
 	}
 }
 
@@ -315,36 +320,31 @@ void Librarian::returnBook(std::map<Book_iter, Reader_iter>& givenBooks)
 		return;
 	}
 	std::cout << "Search result - \nBook: " <<**bookIt<<"\nReader: "<<**(*result).second << std::endl;
-	/////////////
-	////////////add check
 	givenBooks.erase(result);
 }
 
-////////////////
 std::map<Book_iter, Reader_iter> Librarian::restoreLinks(std::map<std::string, std::string>& links)
 {
 	std::map<Book_iter, Reader_iter> restoredLinks;
 	try
 	{
+		if (links.empty())
+		{
+			return restoredLinks;
+		}
 		for (auto& pair : links)
 		{
-			std::string book = pair.first;
-			std::string reader = pair.second;
-			//check return .cend  &&&&&&&&&&&&&&
-			Book_iter bookIt = restoreBookLink(book);
-			Reader_iter readerIt = restoreReaderLink(reader);
-
+			Book_iter bookIt = restoreBookLink(pair.first);
+			Reader_iter readerIt = restoreReaderLink(pair.second);
 			restoredLinks.emplace(bookIt, readerIt);
 		}
 		std::cout << "Links had been restored " << std::endl;
 	}
-	catch (const std::exception&)
+	catch (const std::exception& ex)
 	{
-
+		std::cout << ex.what() << std::endl;
 	}
 	return restoredLinks;
-
-	
 }
 
 Book_iter Librarian::restoreBookLink(const std::string& id)
@@ -352,29 +352,22 @@ Book_iter Librarian::restoreBookLink(const std::string& id)
 
 	for (auto it = this->allBooks.begin(); it != this->allBooks.end(); it++)
 	{
-		std::string returnFullName = (*it)->getId();// +" " + (*it)->getAuther() + " " + (*it)->getTitle();
-		//strTolower(returnFullName);
-		//if (returnFullName.find(id) != std::string::npos)
-		if (id == returnFullName)
+		std::string checkId = (*it)->getId();
+		if (id == checkId)
 		{
 			return it;
 		}
 	}
-	throw std::exception("***Fail of restore books link.");
+	throw std::exception("Empty fields. Can't restored books links.");
 }
 
 Reader_iter Librarian::restoreReaderLink(std::string& id)
 {
 	Reader_t  vecReadersIter = this->findReaders(id);
 	if (vecReadersIter.empty())
-	{
-		std::cout << "No rezult, try again " << std::endl;
-		return this->allReaders.cend();//check
-	}
+		throw std::exception("Empty fields. Can't restored readers links.");
 	else
-	{	
-	 return vecReadersIter.at(0);
-	}
+		 return vecReadersIter.at(0);
 }
 
 

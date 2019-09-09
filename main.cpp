@@ -6,11 +6,9 @@
 #include "Keeper.h"
 #include "Menu.h"
 
-// save after duable book
-// add link - save given book, now rewhrite
-// check link before del book,  reader +
-// const in Get
-//check loosen links
+
+
+//return restoredLinks empty?
 
 
 
@@ -22,13 +20,15 @@ int main()
 	Menu m(&l);
 	Keeper k(&l);
 	std::map<Book_iter, Reader_iter> givenB;
-	std::map<std::string, std::string> ms = k.readGivenBookfromXML();
+	std::map<std::string, std::string> mapStringId = k.readGivenBookfromXML();
 	std::string s;
 
 	k.readBookFromXML();
 	k.readReaderFromXML();
 		
-	givenB = l.restoreLinks(ms);
+	givenB = l.restoreLinks(mapStringId);
+	
+	
 	
 	unsigned int choice;
 	do

@@ -15,12 +15,12 @@ public:
 	void setReader(std::string , std::string , std::string );
 	void setReader();
 	void setReaderId(std::string );
-	std::string getId();
-	std::string getName();
-	std::string getSurname();
-	void show();
+	std::string getId() const;
+	std::string getName() const;
+	std::string getSurname() const;
+	void show() const;
 	
-	bool isEmpty();
+	bool isEmpty() const;
 	
 
 	friend std::ostream& operator<<(std::ostream&, const Reader&);

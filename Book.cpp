@@ -43,12 +43,12 @@ const std::string Book::getTitle() const
 	return this->title;
 }
 
-void Book::show()
+void Book::show() const
 {
 	std::cout << this->id << " - " << this->auther << " - " << this->title << std::endl;
 }
 
-bool Book::isEmpty()
+bool Book::isEmpty() const
 {
 	if (this->getId() == "" || this->getAuther() == "" || this->getTitle() == "")
 		return true;

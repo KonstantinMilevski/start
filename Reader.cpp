@@ -39,27 +39,27 @@ void Reader::setReaderId(std::string id)
 	this->id = id;
 }
 
-std::string Reader::getId()
+std::string Reader::getId() const
 {
 	return this->id;
 }
 
-std::string Reader::getName()
+std::string Reader::getName() const
 {
 	return this->name;
 }
 
-std::string Reader::getSurname()
+std::string Reader::getSurname() const
 {
 	return this->surname;
 }
 
-void Reader::show()
+void Reader::show() const
 {
 	std::cout << this->id << " - " << this->name << " - " << this->surname << std::endl;
 }
 
-bool Reader::isEmpty()
+bool Reader::isEmpty() const
 {
 	if (this->getId() == "" || this->getName() == "" || this->getSurname()== "")
 			return true;

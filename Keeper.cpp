@@ -4,16 +4,9 @@ Keeper::Keeper(Librarian* lib)
 {
 	this->lib = lib;
 }
-std::string book_last_name = "Books_end.xml";  //"Books_end.xml"
-std::string  book_first_name = "Books_end.xml";  //"Books_first.xml"
-
-std::string reader_last_name = "Readers_end.xml";
-std::string  reader_first_name = "Readers_first.xml";
-
-
-std::string links_last_name = "Links_end.xml";
-
-
+std::string book_last_name = "Books.xml";  
+std::string reader_last_name = "Readers.xml";
+std::string links_last_name = "Links.xml";
 
 void Keeper::saveBookToXML()
 {
@@ -51,15 +44,15 @@ void Keeper::saveBookToXML()
 void Keeper::readBookFromXML()
 {
 	XMLDocument doc = new XMLDocument;
-	// add 
-	if (!(doc.LoadFile(book_first_name.c_str()) == XML_SUCCESS))
+	
+	if (!(doc.LoadFile(book_last_name.c_str()) == XML_SUCCESS))
 	{
-		std::cout << "Bad open " << book_first_name << std::endl;
-		//throw - 1;
+		std::cout << "Bad open " << book_last_name << std::endl;
+		return;
 	}
 	else
 	{
-		std::cout << "File open: " << book_first_name << std::endl;
+		//std::cout << "File open: " << book_last_name << std::endl;
 		XMLNode* root = doc.FirstChildElement();
 		if (root == nullptr)
 			throw - 1;
@@ -194,12 +187,12 @@ void Keeper::readReaderFromXML()
 	// add 
 	if (!(doc.LoadFile(reader_last_name.c_str()) == XML_SUCCESS))
 	{
-		std::cout << "Bad open " << reader_first_name << std::endl;
+		std::cout << "Bad open " << reader_last_name << std::endl;
 		return;
 	}
 	else
 	{
-		std::cout << "File open: " << reader_first_name << std::endl;
+		//std::cout << "File open: " << reader_last_name << std::endl;
 		XMLNode* root = doc.FirstChildElement();
 		if (root == nullptr)
 			return;
@@ -224,7 +217,11 @@ void Keeper::readReaderFromXML()
 void Keeper::saveSingleReaderToXML(Reader& reader)
 {
 	XMLDocument doc = new XMLDocument;
-	doc.LoadFile(reader_last_name.c_str());
+	if (!(doc.LoadFile(reader_last_name.c_str()) == XML_SUCCESS))
+	{
+		std::cout << "Bad open " << reader_last_name << std::endl;
+		return;
+	}
 
 	XMLNode* root = doc.FirstChildElement("Readers");
 	if (root)
@@ -298,23 +295,21 @@ void Keeper::saveGivenBookToXML(const std::map<Book_iter, Reader_iter>& givenBoo
 {
 	XMLDocument doc = new XMLDocument;
 	XMLNode* root = doc.NewElement("GivenBooks");
-	doc.InsertFirstChild(root);
 		
-	for (auto itPair = givenBooks.cbegin(); itPair != givenBooks.cend(); ++itPair)
-	{
-		XMLElement* el = doc.NewElement("Link");
-		//el->SetAttribute("All books", "5");
-		XMLElement* readerId = doc.NewElement("BookId");
-		readerId->SetText((*(itPair->first))->getId().c_str());
-		el->InsertEndChild(readerId);
+		for (auto itPair = givenBooks.cbegin(); itPair != givenBooks.cend(); ++itPair)
+		{
+			XMLElement* el = doc.NewElement("Link");
+			XMLElement* readerId = doc.NewElement("BookId");
+			readerId->SetText((*(itPair->first))->getId().c_str());
+			el->InsertEndChild(readerId);
 
-		XMLElement* bookId = doc.NewElement("ReaderId");
-		bookId->SetText((*(itPair->second))->getId().c_str());
-		el->InsertEndChild(bookId);
-			   
-		root->InsertEndChild(el);
-	}
+			XMLElement* bookId = doc.NewElement("ReaderId");
+			bookId->SetText((*(itPair->second))->getId().c_str());
+			el->InsertEndChild(bookId);
 
+			root->InsertEndChild(el);
+		}
+		doc.InsertEndChild(root);
 	if (doc.SaveFile(links_last_name.c_str()) == XML_SUCCESS)
 	{
 		std::cout << "Links  saved:" << links_last_name << std::endl;
@@ -323,22 +318,27 @@ void Keeper::saveGivenBookToXML(const std::map<Book_iter, Reader_iter>& givenBoo
 
 std::map<std::string, std::string> Keeper::readGivenBookfromXML()
 {
-	std::map<std::string, std::string> givenBooks;
+	std::map<std::string, std::string> mapStringId;
 	XMLDocument doc = new XMLDocument;
 	doc.LoadFile(links_last_name.c_str());
 	if (!doc.Error())
 	{
 		XMLNode* root = doc.FirstChildElement();
-
 		for (auto link = root->FirstChildElement(); link; link = link->NextSiblingElement())
 		{
 			
-			givenBooks.emplace(link->FirstChild()->FirstChild()->Value(),
+			mapStringId.emplace(link->FirstChild()->FirstChild()->Value(),
 								link->FirstChild()->NextSiblingElement()->FirstChild()->Value());
 		}
 		
 	}
-	return givenBooks;
+	else
+	{
+		std::cout << "Can't read links." << links_last_name << std::endl;
+	}
+	/*if (mapStringId.empty())
+		throw std::exception("Links are empty");*/
+	return mapStringId;
 }
 
 
