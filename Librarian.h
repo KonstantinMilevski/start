@@ -14,32 +14,21 @@ using Book_t= std::vector<Book_iter>;
 using Reader_t = std::vector<Reader_iter>;
 
 
-
 // не дружить попробовать
 class Keeper;
 class Librarian
 {
 public:
-	std::map<Book_iter, Reader_iter> givenBooks;//*+
-
-	void createBook(std::istream&, Book&);
+//protected:
+	//void createBook(std::istream&, Book&);
 	void addSingleBook(Book&);
 	bool delBook(std::string&, std::map<Book_iter, Reader_iter>& );
 	void showBooks();
-	bool checkBookLinks(Book_iter& bookIterator, std::map<Book_iter, Reader_iter>&);
-	Book_t findBooks(std::string& str);
-	Book_iter selectBook();
 		
-	void createReader(std::istream&, Reader&);
 	void addSingleReader(Reader&);
 	bool delReader(std::string&, std::map<Book_iter, Reader_iter>& );
 	void showReaders();
-	bool checkReaderLinks(Reader_iter&, std::map<Book_iter, Reader_iter>&);
-	Reader_t findReaders(std::string& str);
-	Reader_iter selectReader();
-
-	std::string searchWord();
-	
+		
 	void showFoundBooks();
 	
 	void giveBook(std::map<Book_iter, Reader_iter>& );
@@ -47,18 +36,31 @@ public:
 	void returnBook(std::map<Book_iter, Reader_iter>&);
 
 	std::map<Book_iter, Reader_iter> restoreLinks(std::map<std::string, std::string>&);
-	Book_iter restoreBookLink(const std::string&);
-	Reader_iter restoreReaderLink(std::string& );
+	
 
 	friend void strTolower(std::string&);
 	friend std::istream& read(std::istream&, Book&);
 	friend std::istream& read(std::istream&, Reader&);
 	friend Keeper;
+protected:
+	void createBook(std::istream&, Book&);
+	void createReader(std::istream&, Reader&);
+	
 private:
+	bool checkBookLinks(Book_iter& bookIterator, std::map<Book_iter, Reader_iter>&);
+	Book_t findBooks(std::string& str);
+	Book_iter selectBook();
+
+	bool checkReaderLinks(Reader_iter&, std::map<Book_iter, Reader_iter>&);
+	Reader_t findReaders(std::string& str);
+	Reader_iter selectReader();
+
+	Book_iter restoreBookLink(const std::string&);
+	Reader_iter restoreReaderLink(std::string&);
+
+	std::string searchWord();
+
 	std::vector<std::unique_ptr<Book>> allBooks;
 	std::vector<std::unique_ptr <Reader>> allReaders;
-
-	std::vector<Book_iter> vecReadBooksIter;
-	
-};
+ };
 

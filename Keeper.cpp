@@ -47,24 +47,23 @@ void Keeper::readBookFromXML()
 	
 	if (!(doc.LoadFile(book_last_name.c_str()) == XML_SUCCESS))
 	{
-		std::cout << "Bad open " << book_last_name << std::endl;
+		std::cout << "Fail open " << book_last_name << std::endl;
 		return;
 	}
 	else
 	{
-		//std::cout << "File open: " << book_last_name << std::endl;
 		XMLNode* root = doc.FirstChildElement();
 		if (root == nullptr)
-			throw - 1;
-		XMLElement* book = root->FirstChildElement();//"Book"
+		{
+			std::cout << "Can't reading or empty: " << reader_last_name << std::endl;
+			return;
+		}
+		XMLElement* book = root->FirstChildElement();
 		while (book)
 		{
-			XMLElement* id = book->FirstChildElement(); //"Id"
-			//std::cout << id->GetText() << std::endl;
+			XMLElement* id = book->FirstChildElement(); 
 			XMLElement* auther = id->NextSiblingElement();
-			//std::cout << auther->GetText() << std::endl;
 			XMLElement* title = auther->NextSiblingElement();
-			//std::cout << title->GetText() << std::endl;
 			Book temp;
 			temp.setBook(id->GetText(), auther->GetText(), title->GetText());
 			auto tmp = std::unique_ptr<Book>(new Book(temp));
@@ -149,7 +148,6 @@ void Keeper::delBookFromXML(const std::string& compare)
 
 }
 
-
 void Keeper::saveReaderToXML()
 {
 	XMLDocument doc = new XMLDocument;
@@ -184,18 +182,20 @@ void Keeper::readReaderFromXML()
 {
 
 	XMLDocument doc = new XMLDocument;
-	// add 
 	if (!(doc.LoadFile(reader_last_name.c_str()) == XML_SUCCESS))
 	{
-		std::cout << "Bad open " << reader_last_name << std::endl;
+		std::cout << "Fail open " << reader_last_name << std::endl;
 		return;
 	}
 	else
 	{
-		//std::cout << "File open: " << reader_last_name << std::endl;
 		XMLNode* root = doc.FirstChildElement();
 		if (root == nullptr)
+		{
+			std::cout << "Can't reading or empty: " << reader_last_name << std::endl;
 			return;
+		}
+			
 		XMLElement* reader = root->FirstChildElement();//"Reader"
 		while (reader)
 		{

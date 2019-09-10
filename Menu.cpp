@@ -37,3 +37,87 @@ unsigned int Menu::menu()
 	std::cin.ignore(UINT_MAX, '\n');
 	return choice;
 }
+
+void Menu::start()
+{
+	Librarian lib;
+	Menu libMenu(&lib);
+	Keeper libKeeper(&lib);
+	std::map<Book_iter, Reader_iter> givenBook;
+	std::map<std::string, std::string> mapStringId = libKeeper.readGivenBookfromXML();
+	std::string s;
+	
+	libKeeper.readBookFromXML();
+	libKeeper.readReaderFromXML();
+
+	givenBook = lib.restoreLinks(mapStringId);
+	
+	unsigned int choice;
+	do
+	{
+		choice = libMenu.menu();
+		switch (choice)
+		{
+		case 0:
+			break;
+		case 1:
+		{
+			Book temp;
+			lib.addSingleBook(temp);
+			if (temp.isEmpty())
+				break;
+			libKeeper.saveSingleBookToXML(temp);
+		}
+		break;
+		case 2:
+		{
+			Reader temp;
+			lib.addSingleReader(temp);
+			if (temp.isEmpty())
+				break;
+			libKeeper.saveSingleReaderToXML(temp);
+		}
+		break;
+		case 3:
+			lib.showBooks();
+			break;
+		case 4:
+			lib.showFoundBooks();
+			break;
+		case 5:
+			lib.showReaders();
+			break;
+		case 6:
+		{
+			lib.giveBook(givenBook);
+			libKeeper.saveGivenBookToXML(givenBook);
+		}
+		break;
+		case 7:
+			lib.showGivenBooks(givenBook);
+			break;
+		case 8:
+
+			break;
+		case 9:
+		{
+			lib.returnBook(givenBook);
+			libKeeper.saveGivenBookToXML(givenBook);
+		}
+		break;
+		case 10:
+		{
+			if (lib.delReader(s, givenBook))
+				libKeeper.delReaderFromXML(s);
+		}
+		break;
+		case 11:
+		{
+			if (lib.delBook(s, givenBook))
+				libKeeper.delBookFromXML(s);
+		}
+		break;
+		default: std::cout << "Try again";
+		}
+	} while (choice != 0);
+}

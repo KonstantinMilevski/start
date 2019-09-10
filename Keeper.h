@@ -8,12 +8,12 @@
 #include "Book.h"
 
 using namespace tinyxml2;
-class Keeper:public Librarian
+class Keeper
 {
 public:
 	Keeper(Librarian* lib);
 
-	std::map<std::string, std::string> readGivenBookfromXML();//*
+	std::map<std::string, std::string> readGivenBookfromXML();
 
 	void saveBookToXML();
 	void readBookFromXML();
