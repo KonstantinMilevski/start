@@ -5,13 +5,14 @@
 #include "Menu.h"
 
 //return restoredLinks empty?
+// enter text v find
+// info save links or check save
 
 int main()
 {
-	Librarian l;
-	Menu m(&l);
-	m.start();
-	Keeper k(&l);
+	Librarian lib;
+	Menu libMenu(&lib);
+	libMenu.start();
 	
 	return 0;
 }
