@@ -55,17 +55,17 @@ void Librarian::showBooks()
 	for (const auto& book : allBooks)
 		std::cout << *book<<std::endl;
 }
-bool Librarian::checkBookLinks(Book_iter& bookIterator, std::map<Book_iter, Reader_iter>& givenBooks)
+bool Librarian::checkBookLinks(Book_vect_iter& bookIterator, std::map<Book_vect_iter, Reader_vect_iter>& givenBooks)
 {
 	if (givenBooks.count(bookIterator))
 		return false;
 	else
 		return true;
 }
-Book_iter Librarian::selectBook()
+Book_vect_iter Librarian::selectBook()
 {
 	std::string temp = searchWord();
-	Book_t  vecBooksIter = this->findBooks(temp);
+	Vector_Book_iter  vecBooksIter = this->findBooks(temp);
 	if (vecBooksIter.empty())
 	{
 		std::cout << "No rezult, try again " << std::endl;
@@ -93,9 +93,9 @@ Book_iter Librarian::selectBook()
 	}
 	return  allBooks.end() ;
 }
-Book_t Librarian::findBooks(std::string& searchString)
+Vector_Book_iter Librarian::findBooks(std::string& searchString)
 {
-	Book_t vecBooksIter;
+	Vector_Book_iter vecBooksIter;
 	strTolower(searchString);
 	
 	for (auto it = this->allBooks.cbegin(); it != this->allBooks.cend(); it++)
@@ -112,7 +112,7 @@ Book_t Librarian::findBooks(std::string& searchString)
 void Librarian::showFoundBooks()
 {
 	std::string temp = searchWord();
-	Book_t  vecBooksIter = this->findBooks(temp);
+	Vector_Book_iter  vecBooksIter = this->findBooks(temp);
 	if (vecBooksIter.empty())
 	{
 		std::cout << "No rezult, try again " << std::endl;
@@ -128,9 +128,9 @@ void Librarian::showFoundBooks()
 	}
 
 }
-bool Librarian::delBook(std::string& str, std::map<Book_iter, Reader_iter>& givenBooks)
+bool Librarian::delBook(std::string& str, std::map<Book_vect_iter, Reader_vect_iter>& givenBooks)
 {
-	Book_iter bookIterator = this->selectBook();
+	Book_vect_iter bookIterator = this->selectBook();
 	if (bookIterator== allBooks.end())
 	{
 		std::cout << "Incorrect, try again " << std::endl;
@@ -160,9 +160,9 @@ std::string Librarian::searchWord()
 }
 
 ////
-Reader_t Librarian::findReaders(std::string& searchString)
+Vector_Reader_iter Librarian::findReaders(std::string& searchString)
 {
-	Reader_t vecReadersIter;
+	Vector_Reader_iter vecReadersIter;
 	strTolower(searchString);
 	for (auto it = this->allReaders.cbegin(); it != this->allReaders.cend(); it++)
 	{
@@ -175,10 +175,10 @@ Reader_t Librarian::findReaders(std::string& searchString)
 	}
 	return  vecReadersIter;
 }
-Reader_iter Librarian::selectReader()
+Reader_vect_iter Librarian::selectReader()
 {
 	std::string temp = searchWord();
-	Reader_t  vecReadersIter = this->findReaders(temp);
+	Vector_Reader_iter  vecReadersIter = this->findReaders(temp);
 	if (vecReadersIter.empty())
 	{
 		std::cout << "No rezult, try again " << std::endl;
@@ -245,9 +245,9 @@ void Librarian::addSingleReader(Reader& newreader)
 		std::cout << "Catch " << ex.what() << std::endl;
 	}
 }
-bool Librarian::delReader(std::string& path, std::map<Book_iter, Reader_iter>& givenBooks)
+bool Librarian::delReader(std::string& path, std::map<Book_vect_iter, Reader_vect_iter>& givenBooks)
 {
-	Reader_iter readerIterator = this->selectReader();
+	Reader_vect_iter readerIterator = this->selectReader();
 	if (readerIterator == allReaders.end())
 	{
 		std::cout << "Incorrect, try again " << std::endl;
@@ -270,7 +270,7 @@ void Librarian::showReaders()
 	for (const auto& reader : allReaders)
 		std::cout << *reader << std::endl;
 }
-bool Librarian::checkReaderLinks(Reader_iter& readerIterator, std::map<Book_iter, Reader_iter>& givenBooks)
+bool Librarian::checkReaderLinks(Reader_vect_iter& readerIterator, std::map<Book_vect_iter, Reader_vect_iter>& givenBooks)
 {
 	for (const auto& pair : givenBooks)
 	{
@@ -283,10 +283,10 @@ bool Librarian::checkReaderLinks(Reader_iter& readerIterator, std::map<Book_iter
 }
 
 
-void Librarian::giveBook(std::map<Book_iter, Reader_iter>& givenBooks)
+void Librarian::giveBook(std::map<Book_vect_iter, Reader_vect_iter>& givenBooks)
 {
-	const Reader_iter readerIt = this->selectReader();
-	const Book_iter bookIt = this->selectBook();
+	const Reader_vect_iter readerIt = this->selectReader();
+	const Book_vect_iter bookIt = this->selectBook();
 	
 	auto result=givenBooks.emplace(bookIt,readerIt);
 	if (!result.second)
@@ -295,7 +295,7 @@ void Librarian::giveBook(std::map<Book_iter, Reader_iter>& givenBooks)
 	}
 }
 
-void Librarian::showGivenBooks(const std::map<Book_iter, Reader_iter >& givenBooks)// check empty
+void Librarian::showGivenBooks(const std::map<Book_vect_iter, Reader_vect_iter >& givenBooks)// check empty
 {
 	if (givenBooks.empty())
 	{
@@ -310,9 +310,9 @@ void Librarian::showGivenBooks(const std::map<Book_iter, Reader_iter >& givenBoo
 	}
 }
 
-void Librarian::returnBook(std::map<Book_iter, Reader_iter>& givenBooks)
+void Librarian::returnBook(std::map<Book_vect_iter, Reader_vect_iter>& givenBooks)
 {
-	Book_iter bookIt = this->selectBook();
+	Book_vect_iter bookIt = this->selectBook();
 	auto result=givenBooks.find(bookIt);
 	if (result==givenBooks.end())
 	{
@@ -323,9 +323,9 @@ void Librarian::returnBook(std::map<Book_iter, Reader_iter>& givenBooks)
 	givenBooks.erase(result);
 }
 
-std::map<Book_iter, Reader_iter> Librarian::restoreLinks(std::map<std::string, std::string>& links)
+std::map<Book_vect_iter, Reader_vect_iter> Librarian::restoreLinks(std::map<std::string, std::string>& links)
 {
-	std::map<Book_iter, Reader_iter> restoredLinks;
+	std::map<Book_vect_iter, Reader_vect_iter> restoredLinks;
 	try
 	{
 		if (links.empty())
@@ -334,8 +334,8 @@ std::map<Book_iter, Reader_iter> Librarian::restoreLinks(std::map<std::string, s
 		}
 		for (auto& pair : links)
 		{
-			Book_iter bookIt = restoreBookLink(pair.first);
-			Reader_iter readerIt = restoreReaderLink(pair.second);
+			Book_vect_iter bookIt = restoreBookLink(pair.first);
+			Reader_vect_iter readerIt = restoreReaderLink(pair.second);
 			restoredLinks.emplace(bookIt, readerIt);
 		}
 		std::cout << "Links had been restored " << std::endl;
@@ -347,7 +347,7 @@ std::map<Book_iter, Reader_iter> Librarian::restoreLinks(std::map<std::string, s
 	return restoredLinks;
 }
 
-Book_iter Librarian::restoreBookLink(const std::string& id)
+Book_vect_iter Librarian::restoreBookLink(const std::string& id)
 {
 
 	for (auto it = this->allBooks.begin(); it != this->allBooks.end(); it++)
@@ -361,9 +361,9 @@ Book_iter Librarian::restoreBookLink(const std::string& id)
 	throw std::exception("Empty fields. Can't restored books links.");
 }
 
-Reader_iter Librarian::restoreReaderLink(std::string& id)
+Reader_vect_iter Librarian::restoreReaderLink(std::string& id)
 {
-	Reader_t  vecReadersIter = this->findReaders(id);
+	Vector_Reader_iter  vecReadersIter = this->findReaders(id);
 	if (vecReadersIter.empty())
 		throw std::exception("Empty fields. Can't restored readers links.");
 	else

@@ -43,7 +43,7 @@ void Menu::start()
 	Librarian lib;
 	Menu libMenu(&lib);
 	Keeper libKeeper(&lib);
-	std::map<Book_iter, Reader_iter> givenBook;
+	std::map<Book_vect_iter, Reader_vect_iter> givenBook;
 	std::map<std::string, std::string> mapStringId = libKeeper.readGivenBookfromXML();
 	std::string s;
 	

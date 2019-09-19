@@ -7,35 +7,32 @@
 #include <map>
 
 
-using Book_iter = std::vector<std::unique_ptr<Book>>::const_iterator;
-using Reader_iter = std::vector<std::unique_ptr<Reader>>::const_iterator;
+using Book_vect_iter = std::vector<std::unique_ptr<Book>>::const_iterator;
+using Reader_vect_iter = std::vector<std::unique_ptr<Reader>>::const_iterator;
 
-using Book_t= std::vector<Book_iter>;
-using Reader_t = std::vector<Reader_iter>;
+using Vector_Book_iter= std::vector<Book_vect_iter>;
+using Reader_t = std::vector<Reader_vect_iter>;
 
-
-// не дружить попробовать
 class Keeper;
 class Librarian
 {
 public:
-//protected:
-	//void createBook(std::istream&, Book&);
+
 	void addSingleBook(Book&);
-	bool delBook(std::string&, std::map<Book_iter, Reader_iter>& );
+	bool delBook(std::string&, std::map<Book_vect_iter, Reader_vect_iter>& );
 	void showBooks();
 		
 	void addSingleReader(Reader&);
-	bool delReader(std::string&, std::map<Book_iter, Reader_iter>& );
+	bool delReader(std::string&, std::map<Book_vect_iter, Reader_vect_iter>& );
 	void showReaders();
 		
 	void showFoundBooks();
 	
-	void giveBook(std::map<Book_iter, Reader_iter>& );
-	void showGivenBooks(const std::map<Book_iter, Reader_iter>&);
-	void returnBook(std::map<Book_iter, Reader_iter>&);
+	void giveBook(std::map<Book_vect_iter, Reader_vect_iter>& );
+	void showGivenBooks(const std::map<Book_vect_iter, Reader_vect_iter>&);
+	void returnBook(std::map<Book_vect_iter, Reader_vect_iter>&);
 
-	std::map<Book_iter, Reader_iter> restoreLinks(std::map<std::string, std::string>&);
+	std::map<Book_vect_iter, Reader_vect_iter> restoreLinks(std::map<std::string, std::string>&);
 	
 
 	friend void strTolower(std::string&);
@@ -47,16 +44,16 @@ protected:
 	void createReader(std::istream&, Reader&);
 	
 private:
-	bool checkBookLinks(Book_iter& bookIterator, std::map<Book_iter, Reader_iter>&);
-	Book_t findBooks(std::string& str);
-	Book_iter selectBook();
+	bool checkBookLinks(Book_vect_iter& bookIterator, std::map<Book_vect_iter, Reader_vect_iter>&);
+	Vector_Book_iter findBooks(std::string& str);
+	Book_vect_iter selectBook();
 
-	bool checkReaderLinks(Reader_iter&, std::map<Book_iter, Reader_iter>&);
+	bool checkReaderLinks(Reader_vect_iter&, std::map<Book_vect_iter, Reader_vect_iter>&);
 	Reader_t findReaders(std::string& str);
-	Reader_iter selectReader();
+	Reader_vect_iter selectReader();
 
-	Book_iter restoreBookLink(const std::string&);
-	Reader_iter restoreReaderLink(std::string&);
+	Book_vect_iter restoreBookLink(const std::string&);
+	Reader_vect_iter restoreReaderLink(std::string&);
 
 	std::string searchWord();
 

@@ -291,7 +291,7 @@ void Keeper::delReaderFromXML(const std::string& compare)
 	}
 }
 
-void Keeper::saveGivenBookToXML(const std::map<Book_iter, Reader_iter>& givenBooks)
+void Keeper::saveGivenBookToXML(const std::map<Book_vect_iter, Reader_vect_iter>& givenBooks)
 {
 	XMLDocument doc = new XMLDocument;
 	XMLNode* root = doc.NewElement("GivenBooks");

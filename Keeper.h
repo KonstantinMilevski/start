@@ -25,7 +25,7 @@ public:
 	void saveSingleReaderToXML(Reader&);
 	void delReaderFromXML(const std::string&);
 
-	void saveGivenBookToXML(const std::map<Book_iter, Reader_iter>&);
+	void saveGivenBookToXML(const std::map<Book_vect_iter, Reader_vect_iter>&);
 	
 private:
 	Librarian* lib;
