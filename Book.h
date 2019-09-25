@@ -8,13 +8,13 @@ class Book
 {
 public:
 	Book();
-	explicit Book(std::string id);
-	Book(std::string id, std::string auther, std::string title);
+	explicit Book(std::string&& id);
+	Book(std::string&& id, std::string&& auther, std::string&& title);
 	explicit Book(std::istream&);
 
 	void setBook();
-	void setBook(std::string id, std::string auther, std::string title);
-	void setBookId(std::string id);
+	void setBook(const std::string& id, const std::string& auther, const std::string& title);
+	void setBookId(const std::string& id);
 	const std::string getId() const;
 	const std::string getAuther() const;
 	const std::string getTitle() const;

@@ -64,10 +64,9 @@ void Keeper::readBookFromXML()
 			XMLElement* id = book->FirstChildElement(); 
 			XMLElement* auther = id->NextSiblingElement();
 			XMLElement* title = auther->NextSiblingElement();
-			Book temp;
-			temp.setBook(id->GetText(), auther->GetText(), title->GetText());
-			auto tmp = std::unique_ptr<Book>(new Book(temp));
-			this->lib->allBooks.push_back(std::move(tmp));
+			Book temp(id->GetText(), auther->GetText(), title->GetText());;
+			auto tmpUnique = std::make_unique<Book>(temp);
+			this->lib->allBooks.push_back(std::move(tmpUnique));
 			book = book->NextSiblingElement();
 		}
 	}

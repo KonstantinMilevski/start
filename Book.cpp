@@ -2,10 +2,10 @@
 
 Book::Book():Book(""){}
 
-Book::Book(std::string id) : id(id) {}
+Book::Book(std::string&& id) : id(move(id)) {}
 
-Book::Book(std::string id, std::string auther, std::string title)
-	: id(id), auther(auther), title(title) {}
+Book::Book(std::string&& id, std::string&& auther, std::string&& title)
+	: id(std::move(id)), auther(std::move(auther)), title(std::move(title)) {}
 
 Book::Book(std::istream& is) { read(is, *this); }
 
@@ -16,14 +16,14 @@ void Book::setBook()
 	this->title = "";
 }
 
-void Book::setBook(std::string id="", std::string auther="", std::string title="")
+void Book::setBook(const std::string& id, const std::string& auther, const std::string& title)
 {
 	this->id= id;
 	this->auther = auther;
 	this->title = title;
 }
 
-void Book::setBookId(std::string id)
+void Book::setBookId(const std::string& id)
 {
 	this->id = id;
 }

@@ -33,8 +33,7 @@ void Librarian::addSingleBook(Book& newbook)
 		this->createBook(std::cin, newbook);
 	
 		for (const auto& book : allBooks)
-		{
-			if (book->getId() == newbook.getId())
+		{		if (book->getId() == newbook.getId())
 			{
 				std::cout << "Book with such Id is in the library, try again" << std::endl;
 				newbook.setBook();
